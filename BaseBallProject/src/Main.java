@@ -39,7 +39,7 @@ public class Main {
 					System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면");
 					int select2 = sc.nextInt();
 					if (select2 == 1) {
-						// game
+						// game()
 						// randomPick()
 						// 우리팀, 상대방 팀 불러오기
 						// show_playerList

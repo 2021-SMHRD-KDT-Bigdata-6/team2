@@ -16,7 +16,7 @@ public class Main {
 			int select = sc.nextInt();
 
 			if (select == 1) {
-				// login
+				// login 구현하기
 				while (true) {
 					System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면 >> ");
 					int select2 = sc.nextInt();

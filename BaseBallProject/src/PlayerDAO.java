@@ -325,6 +325,7 @@ public class PlayerDAO {
 			System.out.println("게임 시작 ! ");
 			while(gameCnt < 10) { // game 9회 진행될때까지 진행
 				// 게임이 진행될 때마다 상대방 선수 달라져야하니까 여기서 랜덤 선수 뽑아주기
+				System.out.println("***"+gameCnt+"회 시작 ***");
 				int enemyPick = enemyPlayerList.get(ran.nextInt(enemyPlayerList.size()));
 				
 				
@@ -354,12 +355,12 @@ public class PlayerDAO {
 					System.out.println("STRIKE");
 				}else if(match <= 50) {
 					hit++;
-					userScore++;
+					userGameScore++;
 					System.out.println("HIT !! 1 점 획득");
 					System.out.println("현재 점수 >> " + userGameScore);
 				}else{
 					homerun++;
-					userScore += 2;
+					userGameScore += 2;
 					System.out.println("HOMERUN !!2 점 획득");
 					System.out.println("현재 점수 >> " + userGameScore);
 					
@@ -389,6 +390,9 @@ public class PlayerDAO {
 
 					// 새로운 선수등록 method로 따로 빼기
 					// return 하게 해서 할까?
+					
+					int newStat = ran.nextInt(100)+1;
+					
 					String updatePlayer = "insert into users values(?,?,?,?)";
 					
 					psmt = conn.prepareStatement(updatePlayer);
@@ -396,13 +400,13 @@ public class PlayerDAO {
 					psmt.setString(1, newid);
 					psmt.setString(2, newPw);
 					psmt.setString(3, newTeam);
-					psmt.setInt(4, 0);
+					psmt.setInt(4, newStat);
 					cnt = psmt.executeUpdate();
 				}
 				
 				
 			}else {
-				System.out.println("게임에서 패배하셨습니다.");				
+				System.out.println("패배하셨습니다.");				
 			}
 			System.out.println("-- 경기결과 -- ");
 			System.out.println("HIT : "+ hit +"개");

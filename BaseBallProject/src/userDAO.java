@@ -3,15 +3,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class userDAO {
-Scanner sc = new Scanner(System.in);
+	Scanner sc = new Scanner(System.in);
 	private Connection conn;
 	private PreparedStatement psmt;
 	private ResultSet rs;
-	
-	
 
 	private void getConn() {
 		try {
@@ -48,29 +47,28 @@ Scanner sc = new Scanner(System.in);
 	public userVO login(userVO vo) {
 		userVO info = null;
 		getConn();
-		
+
 		try {
 			String sql = "select * from users where user_id = ? and user_pw = ?";
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, vo.getId());
 			psmt.setString(2, vo.getPw());
 			rs = psmt.executeQuery();
-			// ↓이게 들어가는게 맞나요??
-			if(rs.next()) {
-				String id = rs.getString("id");
-				String pw = rs.getString("pw");
-				String team = rs.getString("team");
-				int score = rs.getInt("score"); 
-				
-				info = new userVO(id, pw, team, score); 
+
+			if (rs.next()) {
+				String id = rs.getString(1);
+				String pw = rs.getString(2);
+				String team = rs.getString(3);
+				int score = rs.getInt(4);
+
+				info = new userVO(id, pw, team, score);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close();
 		}
-		
-		
+
 		return info;
 	}
 
@@ -78,34 +76,62 @@ Scanner sc = new Scanner(System.in);
 	public int signup(userVO vo) {
 		int cnt = 0;
 		getConn();
-		
+
 //		System.out.print("아이디를 입력하세요 >> ");
 //		String id = sc.next();
 //		System.out.print("비밀번호를 입력하세요 >> ");
 //		String pw = sc.next();
 //		System.out.print("구단명을 입력하세요 >> ");
 //		String team = sc.next();
-		
-		//userVO vo = new userVO(id, pw, team);
-		
-		
-		String spl = "insert into users values(?,?,?,?)";
-		
+
+		// userVO vo = new userVO(id, pw, team);
+
 		try {
+			String spl = "insert into users values(?,?,?,?)";
+			
 			psmt = conn.prepareStatement(spl);
 			psmt.setString(1, vo.getId());
 			psmt.setString(2, vo.getPw());
 			psmt.setString(3, vo.getTeam());
 			psmt.setInt(4, 0);
 			cnt = psmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close();
 		}
-		
 
 		return cnt;
 	}
+
+	// 랭킹확인하기 ranking
+	public ArrayList<userVO> ranking() {
+
+		ArrayList<userVO> ranList = new ArrayList<userVO>();
+		getConn();
+
+		String sql = "select user_id, user_team, user_score from users order by user_score desc";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				String id = rs.getString("user_id");
+				String team = rs.getString("user_team");
+				int score = rs.getInt("user_score");
+				userVO vo = new userVO(id, team, score);
+				ranList.add(vo);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return ranList;
+	}
+
+	// 선수리스트 보여주기 show_playerList
 
 }

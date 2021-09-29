@@ -25,6 +25,14 @@ public class userVO {
 			this.pw = pw;
 			this.team = team;
 		}
+		
+
+		public userVO(String id, String team, int score) {
+			super();
+			this.id = id;
+			this.team = team;
+			this.score = score;
+		}
 
 		public userVO(String id, String pw, String team, int score) {
 			super();

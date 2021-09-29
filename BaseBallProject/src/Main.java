@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -14,6 +15,22 @@ public class Main {
 
 			if (select == 1) {
 				// login
+				System.out.println("--로그인--");
+				System.out.print("ID입력 : ");
+				String id = sc.next();
+				System.out.print("PW입력 : ");
+				String pw = sc.next();
+				
+				userVO vo = new userVO(id, pw);
+				userVO info = dao.login(vo);
+				
+				if(info != null) {
+					System.out.println("로그인 성공!");
+					System.out.println(info.getId() + "님 환영합니다!");
+				}else {
+					System.out.println("로그인 실패..");
+				}
+				
 				while (true) {
 					System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면");
 					int select2 = sc.nextInt();
@@ -27,6 +44,11 @@ public class Main {
 						// ranking
 					} else if (select2 == 2) {
 						// ranking
+						System.out.println("***BaseBall 랭킹!***");
+						ArrayList<userVO> ranList = dao.ranking();
+						for (int i = 0; i < ranList.size(); i++) {
+							System.out.println(ranList.get(i));
+						}
 					} else if (select2 == 3) {
 						System.out.println("메인으로 돌아갑니다.");
 						break;

@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
-//Ä¿¹Ô
+
 		Scanner sc = new Scanner(System.in);
 		userDAO dao = new userDAO();
 

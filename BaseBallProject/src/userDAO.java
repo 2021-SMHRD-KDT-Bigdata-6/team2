@@ -3,12 +3,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class userDAO {
-
+Scanner sc = new Scanner(System.in);
 	private Connection conn;
 	private PreparedStatement psmt;
 	private ResultSet rs;
+	
+	
 
 	private void getConn() {
 		try {
@@ -47,18 +50,19 @@ public class userDAO {
 		getConn();
 		
 		try {
-			String sql = "select * from users where id = ? and pw = ?";
+			String sql = "select * from users where user_id = ? and user_pw = ?";
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, vo.getId());
 			psmt.setString(2, vo.getPw());
 			rs = psmt.executeQuery();
+			// ↓이게 들어가는게 맞나요??
 			if(rs.next()) {
 				String id = rs.getString("id");
 				String pw = rs.getString("pw");
 				String team = rs.getString("team");
-				String score = rs.getString("score");
+				int score = rs.getInt("score"); 
 				
-				info = new userVO(id, pw, team, 0);
+				info = new userVO(id, pw, team, score); 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -75,16 +79,29 @@ public class userDAO {
 		int cnt = 0;
 		getConn();
 		
-		String spl = "";
+//		System.out.print("아이디를 입력하세요 >> ");
+//		String id = sc.next();
+//		System.out.print("비밀번호를 입력하세요 >> ");
+//		String pw = sc.next();
+//		System.out.print("구단명을 입력하세요 >> ");
+//		String team = sc.next();
+		
+		//userVO vo = new userVO(id, pw, team);
+		
+		
+		String spl = "insert into users values(?,?,?,?)";
+		
 		try {
 			psmt = conn.prepareStatement(spl);
 			psmt.setString(1, vo.getId());
 			psmt.setString(2, vo.getPw());
 			psmt.setString(3, vo.getTeam());
-			//psmt.setString(4, vo.get);
+			psmt.setInt(4, 0);
 			cnt = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			close();
 		}
 		
 

@@ -18,12 +18,12 @@ public class userVO {
 			this.pw = pw;
 		}
 
-		public userVO(String id, String pw, String team, int core) {
+		public userVO(String id, String pw, String team, int score) {
 			super();
 			this.id = id;
 			this.pw = pw;
 			this.team = team;
-			this.score = core;
+			this.score = score;
 		}
 
 		public String getId() {
@@ -50,12 +50,12 @@ public class userVO {
 			this.team = team;
 		}
 
-		public int getCore() {
+		public int getScore() {
 			return score;
 		}
 
-		public void setCore(int core) {
-			this.score = core;
+		public void setScore(int score) {
+			this.score = score;
 		}
 		
 		

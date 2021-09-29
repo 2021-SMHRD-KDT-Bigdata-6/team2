@@ -6,7 +6,7 @@ public class userVO {
 		private String team;
 		private int score;
 		
-		
+		//Ä¿¹Ô
 		@Override
 		public String toString() {
 			return "userVO [id=" + id + ", team=" + team + ", score=" + score + "]";

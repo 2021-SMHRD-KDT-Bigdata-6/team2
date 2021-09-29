@@ -41,6 +41,7 @@ public class Main {
 					if (select2 == 1) {
 						// game
 						// randomPick()
+						// 우리팀, 상대방 팀 불러오기
 						// show_playerList
 						
 						// playerInput(선수등록)

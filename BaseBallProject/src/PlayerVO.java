@@ -43,7 +43,8 @@ public class PlayerVO {
 	}
 	
 	public String toString() {
-		return "";
+		return "넘버 : "+num+"\t이름 : "+name+"\t능력치 : "+stat;
+	
 	}
 	
 	

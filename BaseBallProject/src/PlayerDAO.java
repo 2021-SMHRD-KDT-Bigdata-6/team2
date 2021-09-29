@@ -3,8 +3,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 
 public class PlayerDAO {
+
+	Scanner sc = new Scanner(System.in);
+	Random ran = new Random();
 
 	private Connection conn;
 	private PreparedStatement psmt;
@@ -45,25 +51,44 @@ public class PlayerDAO {
 		}
 	}
 
-	private int playerInput(PlayerVO vo) {
-		
-		int num = 0;
-		String name = "";
-		int stat = 0;
-		
-		PlayerVO player = new PlayerVO(num,name,stat);
-		
-		int cnt = 0;
+	public void playerInput() {
 
 		getConn();
 
 		try {
-			String sql = "update players set name = ? Where employee_id = ?";
-			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, vo.getNum());
-			psmt.setString(2, vo.getName());
-			psmt.setInt(3, vo.getStat());
-			cnt = psmt.executeUpdate();
+
+			// 아이디 가져오기
+
+			String id = "chanho";
+			int cnt = 15;
+
+			String sql2 = "select players_no from players where user_id = ?";
+
+			psmt = conn.prepareStatement(sql2);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+
+			while (rs.next()) {
+				cnt++;
+			}
+
+			int num = cnt + 1;
+
+			System.out.print("선수이름을 정해주세요(최대 3자) >> ");
+			String name = sc.next();
+			int stat = ran.nextInt(100) + 1;
+			System.out.println(name + "의 능력치 : " + stat);
+
+			PlayerVO player = new PlayerVO(num, name, stat);
+
+			String sql3 = "insert into players values(?,?,?,?)";
+			psmt = conn.prepareStatement(sql3);
+			psmt.setString(1, id);
+			psmt.setInt(2, player.getNum());
+			psmt.setString(3, player.getName());
+			psmt.setInt(4, player.getStat());
+			psmt.executeUpdate();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,7 +96,85 @@ public class PlayerDAO {
 			close();
 		}
 
-		return cnt;
+	}
+
+	public void showPlayerList() {
+		getConn();
+		ArrayList<PlayerVO> playerList = new ArrayList<PlayerVO>();
+		String id = "chanho";
+
+		try {
+			String sql = "select * from players where user_id = ? order by players_no";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+
+			int i = 0;
+
+			while (rs.next()) {
+				int no = rs.getInt("PLAYERS_NO"); // 컬럼순서 숫자 컬럼명 둘다 가능
+				String name = rs.getString("PLAYERS_NAME");
+				int stat = rs.getInt("PLAYERS_STAT");
+				playerList.add(new PlayerVO(no, name, stat));
+
+				System.out.println(playerList.get(i).toString());
+				i++;
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+	}
+
+	public void enemyPick() {
+		getConn();
+		ArrayList<String> userList = new ArrayList<String>();
+
+		String id = "chanho";
+
+		try {
+			String sql = "select * from users where user_id != ?";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			int i = 0;
+			while (rs.next()) {
+				String userid = rs.getString("user_id");
+				userList.add(userid);
+			}
+
+			String enemyId = userList.get(ran.nextInt(userList.size()));
+
+			ArrayList<PlayerVO> enemyList = new ArrayList<PlayerVO>();
+
+			String sql2 = "select * from players where user_id = ? order by players_no";
+			psmt = conn.prepareStatement(sql2);
+			psmt.setString(1, enemyId);
+			rs = psmt.executeQuery();
+
+			int j = 0;
+
+			while (rs.next()) {
+				int no = rs.getInt("PLAYERS_NO"); // 컬럼순서 숫자 컬럼명 둘다 가능
+				String name = rs.getString("PLAYERS_NAME");
+				int stat = rs.getInt("PLAYERS_STAT");
+				enemyList.add(new PlayerVO(no, name, stat));
+				System.out.println(enemyList.get(j).toString());
+				j++;
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
 
 	}
 

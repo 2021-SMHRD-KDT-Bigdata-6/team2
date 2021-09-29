@@ -11,7 +11,7 @@ public class userVO {
 		public String toString() {
 			return "userVO [id=" + id + ", team=" + team + ", score=" + score + "]";
 		}
-
+		
 		public userVO(String id, String pw) {
 			super();
 			this.id = id;

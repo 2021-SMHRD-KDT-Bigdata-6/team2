@@ -5,7 +5,10 @@ public class Main {
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
-		PlayerDAO dao = new PlayerDAO();
+		userDAO dao = new userDAO();
+		
+		PlayerDAO daoP = new PlayerDAO();
+
 
 		while (true) {
 
@@ -19,7 +22,7 @@ public class Main {
 					int select2 = sc.nextInt();
 					if (select2 == 1) {
 						// game
-						dao.enemyPick();
+						daoP.enemyPick();
 						// randomPick()
 						// show_playerList
 
@@ -39,14 +42,33 @@ public class Main {
 			} else if (select == 2) {
 				// signup
 				// playerInput(선수등록)
-				int cnt = 0;
-				while (cnt < 5) {
-					dao.playerInput();
-					cnt++;
+				int cnt2 = 0;
+				while (cnt2 < 5) {
+					daoP.playerInput();
+					cnt2++;
 				}
 				System.out.println();
-				dao.showPlayerList();
+				daoP.showPlayerList();
 				// show_playerList
+				System.out.print("아이디를 입력하세요 >> ");
+				String id = sc.next();
+				System.out.print("비밀번호를 입력하세요 >> ");
+				String pw = sc.next();
+				System.out.print("구단명을 입력하세요 >> ");
+				String team = sc.next();
+				
+				
+				userVO vo = new userVO(id, pw, team);
+				int cnt = dao.signup(vo);
+				
+				if(cnt > 0) {
+					System.out.println("회원가입 성공!");
+				}else {
+					System.out.println("회원가입 실패...");
+				}
+				
+				
+				
 			} else if (select == 3) {
 				System.out.print("진짜 종료하시겠습니까?ㅜ >> (y/n)");
 				String answer = sc.next();

@@ -51,7 +51,7 @@ public class PlayerDAO {
 		}
 	}
 
-	public void playerInput() {
+	public void playerInput(String newid) {
 
 		getConn();
 
@@ -59,13 +59,12 @@ public class PlayerDAO {
 
 			// 아이디 가져오기
 
-			String id = "chanho";
-			int cnt = 15;
+			String id = newid;
+			int cnt = 0;
 
-			String sql2 = "select players_no from players where user_id = ?";
+			String sql2 = "select players_no from players";
 
 			psmt = conn.prepareStatement(sql2);
-			psmt.setString(1, id);
 			rs = psmt.executeQuery();
 
 			while (rs.next()) {
@@ -98,10 +97,10 @@ public class PlayerDAO {
 
 	}
 
-	public void showPlayerList() {
+	public void showPlayerList(String newid) {
 		getConn();
 		ArrayList<PlayerVO> playerList = new ArrayList<PlayerVO>();
-		String id = "chanho";
+		String id = newid;
 
 		try {
 			String sql = "select * from players where user_id = ? order by players_no";
@@ -109,13 +108,13 @@ public class PlayerDAO {
 			psmt.setString(1, id);
 			rs = psmt.executeQuery();
 
+			System.out.println("축하드립니다!!  "+id+"님의 팀이 결성됐습니다!!");
 			int i = 0;
-
+			
 			while (rs.next()) {
-				int no = rs.getInt("PLAYERS_NO"); // 컬럼순서 숫자 컬럼명 둘다 가능
 				String name = rs.getString("PLAYERS_NAME");
 				int stat = rs.getInt("PLAYERS_STAT");
-				playerList.add(new PlayerVO(no, name, stat));
+				playerList.add(new PlayerVO(name, stat));
 
 				System.out.println(playerList.get(i).toString());
 				i++;
@@ -135,7 +134,7 @@ public class PlayerDAO {
 		getConn();
 		ArrayList<String> userList = new ArrayList<String>();
 
-		String id = "chanho";
+		String id = "";
 
 		try {
 			String sql = "select * from users where user_id != ?";
@@ -158,12 +157,12 @@ public class PlayerDAO {
 			rs = psmt.executeQuery();
 
 			int j = 0;
-
+			
+			System.out.println("상대방 ID : "+enemyId);
 			while (rs.next()) {
-				int no = rs.getInt("PLAYERS_NO"); // 컬럼순서 숫자 컬럼명 둘다 가능
 				String name = rs.getString("PLAYERS_NAME");
 				int stat = rs.getInt("PLAYERS_STAT");
-				enemyList.add(new PlayerVO(no, name, stat));
+				enemyList.add(new PlayerVO(name, stat));
 				System.out.println(enemyList.get(j).toString());
 				j++;
 

@@ -11,6 +11,11 @@ public class PlayerVO {
 		this.num = num;
 		this.stat = stat;
 	}
+	
+	public PlayerVO(String name, int stat) {
+		this.name = name;
+		this.stat = stat;
+	}
 
 	
 	public String getName() {
@@ -43,7 +48,7 @@ public class PlayerVO {
 	}
 	
 	public String toString() {
-		return "넘버 : "+num+"\t이름 : "+name+"\t능력치 : "+stat;
+		return "이름 : "+name+"\t능력치 : "+stat;
 	
 	}
 	

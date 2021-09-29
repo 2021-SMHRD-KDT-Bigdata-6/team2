@@ -11,27 +11,19 @@ public class userVO {
 		public String toString() {
 			return "userVO [id=" + id + ", team=" + team + ", score=" + score + "]";
 		}
-
+		
 		public userVO(String id, String pw) {
 			super();
 			this.id = id;
 			this.pw = pw;
 		}
 
-		
-		public userVO(String id, String pw, String team) {
+		public userVO(String id, String pw, String team, int core) {
 			super();
 			this.id = id;
 			this.pw = pw;
 			this.team = team;
-		}
-
-		public userVO(String id, String pw, String team, int score) {
-			super();
-			this.id = id;
-			this.pw = pw;
-			this.team = team;
-			this.score = score;
+			this.score = core;
 		}
 
 		public String getId() {
@@ -58,12 +50,12 @@ public class userVO {
 			this.team = team;
 		}
 
-		public int getScore() {
+		public int getCore() {
 			return score;
 		}
 
-		public void setScore(int score) {
-			this.score = score;
+		public void setCore(int core) {
+			this.score = core;
 		}
 		
 		

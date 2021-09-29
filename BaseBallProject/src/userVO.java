@@ -6,12 +6,12 @@ public class userVO {
 		private String team;
 		private int score;
 		
-		
+		//Ä¿¹Ô
 		@Override
 		public String toString() {
 			return "userVO [id=" + id + ", team=" + team + ", score=" + score + "]";
 		}
-		
+
 		public userVO(String id, String pw) {
 			super();
 			this.id = id;
@@ -24,6 +24,14 @@ public class userVO {
 			this.id = id;
 			this.pw = pw;
 			this.team = team;
+		}
+		
+
+		public userVO(String id, String team, int score) {
+			super();
+			this.id = id;
+			this.team = team;
+			this.score = score;
 		}
 
 		public userVO(String id, String pw, String team, int score) {

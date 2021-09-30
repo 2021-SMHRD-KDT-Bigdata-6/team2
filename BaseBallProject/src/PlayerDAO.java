@@ -349,10 +349,10 @@ public class PlayerDAO {
 		while (gameCnt < 10) {
 
 			int myPlayerStat = playerStat(playerPick(id));
-			System.out.println("메소드로 받아온 player stat " + myPlayerStat);
+			// System.out.println("메소드로 받아온 player stat " + myPlayerStat);
 
 			int enemyPlayerStat = playerStat(playerPick(enemy));
-			System.out.println("메소드로 받아온 enemy stat " + enemyPlayerStat);
+			// System.out.println("메소드로 받아온 enemy stat " + enemyPlayerStat);
 
 			int result = inning(myPlayerStat, enemyPlayerStat);
 			userGameScore += result;
@@ -366,6 +366,7 @@ public class PlayerDAO {
 		updateScore(id, userScore);
 
 		System.out.println("게임이 종료됐습니다.");
+		
 		// score update했으니까 변화해야함
 		System.out.println("현재 당신의 총 점수는 >> " + getScore(id));
 

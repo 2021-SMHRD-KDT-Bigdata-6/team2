@@ -235,7 +235,7 @@ public class PlayerDAO {
 		// id다르게 입력하면 그에 맞는 playerPick
 	}
 
-	// id 입력받으면 stat 반환해주는 메소드
+	// playerNo 입력받으면 stat 반환해주는 메소드
 	public int playerStat(int playerNo) {
 		//
 		int stat = 0;
@@ -250,16 +250,54 @@ public class PlayerDAO {
 			while (rs.next()) {
 				stat = rs.getInt("players_stat");
 			}
-
-			System.out.println("stat >> " + stat);
+			// System.out.println("stat >> " + stat);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return stat;
 	}
+	
+	public String getPlayerName(int PlayerNo) {
+		getConn();
+		String name = null;
+		
+		try {
+			String getPlayerName = "SELECT players_name FROM players WHERE players_no = ?";
+			psmt = conn.prepareStatement(getPlayerName);
+			psmt.setInt(1, PlayerNo);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				name = rs.getString("players_name");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return name;
+	}
 
-	public int inning(int userPlayerStat, int enemyPlayerStat) {
+	// inning id 받아오면 stat, player name, team  모두 갖고 올 수 있잖아
+	public int inning(int userPlayer, int enemyPlayer) {
+		
+		// player Name 갖고오기
+		String userPlayerName =getPlayerName(userPlayer);
+		String enemyPlayerName =getPlayerName(enemyPlayer);
+		
+		// stat 갖고오기
+		int userPlayerStat = playerStat(userPlayer);
+		int enemyPlayerStat = playerStat(enemyPlayer);
+		
+		
+		System.out.print("우리팀 선수 : "+userPlayerName);
+		System.out.print(" / 스탯 : "+userPlayerStat);
+		System.out.print("  VS ");
+		System.out.print("상대팀 선수 : "+ enemyPlayerName);
+		System.out.print(" / 스탯 : "+ enemyPlayerStat);
+		System.out.println();
+		
+		// enemyPlayer의 stat갖고오기
 		int match = userPlayerStat - enemyPlayerStat;
 		if (match <= 10) {
 			System.out.println("STRIKE");
@@ -271,6 +309,7 @@ public class PlayerDAO {
 			System.out.println("HOMERUN!! 2점 획득");
 			return 2;
 		}
+		
 
 	}
 
@@ -333,41 +372,64 @@ public class PlayerDAO {
 
 		// 게임 종료 될 때 sql 활용해서 score update
 
-		getScore(id);
-		System.out.println("현재 사용자 스코어 받아오기 >> " + getScore(id));
+		
+		// System.out.println("현재 사용자 스코어 받아오기 >> " + getScore(id));
 
 		playerPick(id);
-		System.out.println("사용자 랜덤 선수 받아오기 >> " + playerPick(id));
+		// System.out.println("사용자 랜덤 선수 받아오기 >> " + playerPick(id));
+		// System.out.println("사용자 랜덤 선수 이름 >> " + getPlayerName(playerPick(id)));
 		playerPick(enemy);
-		System.out.println("사용자 랜덤 선수 받아오기 >> " + playerPick(enemy));
+		// System.out.println("상대방 랜덤 선수 받아오기 >> " + playerPick(enemy));
+		// System.out.println("상대방 랜덤 선수 이름 >> " + getPlayerName(playerPick(enemy)));
 
 		// ====== 게임 진행 ======
 
-		int gameCnt = 1; // 1회, 2회... 쉽게 진행하기 위해 1로 값 넣엊움
+		int gameCnt = 1;
+		int choice = 0;
 		System.out.println("게임 시작 ! ");
+		
 
 		while (gameCnt < 10) {
-
-			int myPlayerStat = playerStat(playerPick(id));
-			// System.out.println("메소드로 받아온 player stat " + myPlayerStat);
-
-			int enemyPlayerStat = playerStat(playerPick(enemy));
-			// System.out.println("메소드로 받아온 enemy stat " + enemyPlayerStat);
-
-			int result = inning(myPlayerStat, enemyPlayerStat);
+			
+			System.out.println("===" + gameCnt + "이닝 시작 === ");
+			
+			int result = inning(playerPick(id), playerPick(enemy));
+			if(result==0) {
+				strike++;
+				if(strike == 3) {
+					System.out.println("---- ㅠ 삼 진 아 웃 ㅠ ----");
+					break;
+				}
+			}
 			userGameScore += result;
-			// userGameScore += inning(playerPick(id), playerPick(enemy));
-			// 이렇게도 수정 가능할듯?
+			
+			// 게임 진행 계속 할건지 물어보기
+			System.out.print("[1] 다음 이닝 [2] 경기포기 >> ");
+			choice = sc.nextInt();
+			if(choice==2) {
+				break;
+			}
+			
 			gameCnt++;
 		}
 
 		// scoreUpdate method
-		userScore += userGameScore;
-		updateScore(id, userScore);
 
 		System.out.println("게임이 종료됐습니다.");
 		
+		
+		if(strike==3) {
+			System.out.println("경기 결과 : 패배 ");
+			
+		}else if(gameCnt == 10) {
+			if(choice != 2) {
+			System.out.println("경기 결과 : 승리");
+		}
+		}
+		
 		// score update했으니까 변화해야함
+		userScore += userGameScore;
+		updateScore(id, userScore);
 		System.out.println("현재 당신의 총 점수는 >> " + getScore(id));
 
 		// gameCnt

@@ -106,7 +106,7 @@ public class PlayerDAO {
 
 			String teamName = getTeamName(id);
 
-			//System.out.println("축하드립니다!!  " + teamName + "이(가) 결성됐습니다!!");
+			// System.out.println("축하드립니다!! " + teamName + "이(가) 결성됐습니다!!");
 			System.out.println();
 			System.out.println("===== " + teamName + " 선수 List =====");
 			// 팀명이 나오게
@@ -165,7 +165,7 @@ public class PlayerDAO {
 			// 여기서 오류 발생 -> 해결
 			// id 해결, userList 채워줌
 			// enemyId 는, userList에서 userList길이만큼 랜덤숫자 중 하나 걸린거
-			
+
 			ArrayList<PlayerVO> myList = new ArrayList<PlayerVO>();
 			ArrayList<PlayerVO> enemyList = new ArrayList<PlayerVO>();
 			// 상대방list
@@ -182,9 +182,9 @@ public class PlayerDAO {
 			psmt = conn.prepareStatement(sql1);
 			psmt.setString(1, userId);
 			rs = psmt.executeQuery();
-			
+
 			int k = 0;
-			
+
 			System.out.println("===== " + userTeamName + " 선수 List =====");
 			while (rs.next()) {
 				String name = rs.getString("PLAYERS_NAME");
@@ -195,7 +195,7 @@ public class PlayerDAO {
 
 			}
 			System.out.println();
-			
+
 			String sql2 = "select * from players where user_id = ? order by players_no";
 			psmt = conn.prepareStatement(sql2);
 			psmt.setString(1, enemyId);
@@ -466,57 +466,70 @@ public class PlayerDAO {
 		// System.out.println("상대방 랜덤 선수 받아오기 >> " + playerPick(enemy));
 		// System.out.println("상대방 랜덤 선수 이름 >> " + getPlayerName(playerPick(enemy)));
 
-		// ====== 게임 진행 ======
+		while (true) {
+			System.out.print("[1] 플레이! [2] 기권할래요 ㅜ");
+			int goOrStop = sc.nextInt();
+			// ====== 게임 진행 ======
+			if (goOrStop == 1) {
 
-		int gameCnt = 1;
-		int choice = 0;
-		System.out.println("게임 시작 ! ");
+				int gameCnt = 0;
+				int choice = 0;
+				System.out.println("게임 시작 ! ");
 
-		while (gameCnt < 9) {
+				while (true) {
+					gameCnt++;
+					System.out.println("===" + gameCnt + "이닝 시작 === ");
+					
+					int result = inning(playerPick(id), playerPick(enemy));
+					if (result == 0) {
+						strike++;
+						if (strike == 10) {// strike ==3으로 고치기
+							System.out.println("---- ㅠ 삼 진 아 웃 ㅠ ----");
+							break;
+						}
+					}
+					userGameScore += result;
 
-			System.out.println("===" + gameCnt + "이닝 시작 === ");
-
-			int result = inning(playerPick(id), playerPick(enemy));
-			if (result == 0) {
-				strike++;
-				if (strike == 3) {//strike ==3으로 고치기
-					System.out.println("---- ㅠ 삼 진 아 웃 ㅠ ----");
-					break;
+					// 게임 진행 계속 할건지 물어보기
+					if (gameCnt == 9) {
+						break;
+					} else {
+						System.out.print("[1] 다음 이닝 [2] 경기포기 >> ");
+						choice = sc.nextInt();
+					}
+					if (choice == 2) {
+						break;
+					}
 				}
-			}
-			userGameScore += result;
 
-			// 게임 진행 계속 할건지 물어보기
-			System.out.print("[1] 다음 이닝 [2] 경기포기 >> ");
-			choice = sc.nextInt();
-			if (choice == 2) {
+				// scoreUpdate method
+
+				System.out.println("게임이 종료됐습니다.");
+
+				if (strike == 10) {
+					System.out.println("경기 결과 : 패배 ");
+
+				} else if (gameCnt == 9) {
+					if (choice != 2) {
+						System.out.println("경기 결과 : 승리");
+						System.out.println("축하드립니다!! 승리에 대한 보상으로 선수 1명 추가등록하세요!");
+						playerInput(id);
+						showPlayerList(id);
+					}
+				}
+
+				// score update했으니까 변화해야함
+				userScore += userGameScore;
+				updateScore(id, userScore);
+				System.out.println("현재 당신의 총 점수는 >> " + getScore(id));
 				break;
-			}
-
-			gameCnt++;
-		}
-
-		// scoreUpdate method
-
-		System.out.println("게임이 종료됐습니다.");
-
-		if (strike == 3) {
-			System.out.println("경기 결과 : 패배 ");
-
-		} else if (gameCnt == 9) {
-			if (choice != 2) {
-				System.out.println("경기 결과 : 승리");
-				System.out.println("축하드립니다!! 승리에 대한 보상으로 선수 1명 추가등록하세요!");
-				playerInput(id);
-				showPlayerList(id);
+			} else if (goOrStop == 2) {
+				System.out.println("겁쟁이...!!");
+				break;
+			} else {
+				System.out.println("[1]과 [2]중에서 고르세요!");
 			}
 		}
-
-		// score update했으니까 변화해야함
-		userScore += userGameScore;
-		updateScore(id, userScore);
-		System.out.println("현재 당신의 총 점수는 >> " + getScore(id));
-
 		// gameCnt
 
 //		ArrayList<Integer>userPlayerList = new ArrayList<Integer>();

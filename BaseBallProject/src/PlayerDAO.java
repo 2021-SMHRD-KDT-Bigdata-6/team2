@@ -97,19 +97,25 @@ public class PlayerDAO {
 
 	}
 
-	public void showPlayerList(String newid) {
+	public void showPlayerList(String newId) {
 		getConn();
 		ArrayList<PlayerVO> playerList = new ArrayList<PlayerVO>();
-		String id = newid;
+		String id = newId;
 
 		try {
+
+			String teamName = getTeamName(id);
+
+			System.out.println("축하드립니다!!  " + teamName + "이(가) 결성됐습니다!!");
+			System.out.println();
+			System.out.println("===== " + teamName + " 선수 List =====");
+			// 팀명이 나오게
+
+			int i = 0;
 			String sql = "select * from players where user_id = ? order by players_no";
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
 			rs = psmt.executeQuery();
-
-			System.out.println("축하드립니다!!  " + id + "님의 팀이 결성됐습니다!!");
-			int i = 0;
 
 			while (rs.next()) {
 				String name = rs.getString("PLAYERS_NAME");
@@ -120,6 +126,7 @@ public class PlayerDAO {
 				i++;
 
 			}
+			System.out.println();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -131,14 +138,13 @@ public class PlayerDAO {
 	}
 
 	// void 바꿔서 enemyPick -> id return하도록
-	public String enemyPick(String newid) {
+	public String enemyPick(String id) {
 		getConn();
 		ArrayList<String> userList = new ArrayList<String>();
 
 		String result = null;
 
-		String id = newid;
-		// String id = "";
+		String userId = id;
 
 		try {
 			String sql = "select * from users where user_id != ?";
@@ -146,14 +152,11 @@ public class PlayerDAO {
 			psmt.setString(1, id);
 			rs = psmt.executeQuery();
 
-			int i = 0;
-			// int i 왜 선언?
-
 			while (rs.next()) {
 				// rs가 존재한다면
-				String userid = rs.getString("user_id");
+				String otherUserId = rs.getString("user_id");
 				// userid를 rs의 user_id column에서 받아와서
-				userList.add(userid);
+				userList.add(otherUserId);
 				// userList에 userid 담아주기
 			}
 
@@ -166,6 +169,14 @@ public class PlayerDAO {
 			ArrayList<PlayerVO> enemyList = new ArrayList<PlayerVO>();
 			// 상대방list
 
+			String userTeamName = getTeamName(userId);
+			String enemyTeamName = getTeamName(enemyId);
+
+			System.out.println();
+			System.out.println("***** 오늘의 매치 *****");
+			System.out.println(userTeamName + "  VS  " + enemyTeamName);
+			System.out.println();
+
 			String sql2 = "select * from players where user_id = ? order by players_no";
 			psmt = conn.prepareStatement(sql2);
 			psmt.setString(1, enemyId);
@@ -173,8 +184,8 @@ public class PlayerDAO {
 
 			int j = 0;
 
-			System.out.println("상대방 ID : " + enemyId);
-
+			// println ===상대방 선수 리스트===
+			System.out.println("===== " + enemyTeamName + " 선수 List =====");
 			while (rs.next()) {
 				String name = rs.getString("PLAYERS_NAME");
 				int stat = rs.getInt("PLAYERS_STAT");
@@ -183,6 +194,7 @@ public class PlayerDAO {
 				j++;
 
 			}
+			System.out.println();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -278,6 +290,25 @@ public class PlayerDAO {
 		return name;
 	}
 
+	public String getTeamName(String id) {
+
+		String teamName = "";
+
+		try {
+			String sql = "select user_team from users where user_id = ?";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			rs.next();
+			teamName = rs.getString("user_team");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return teamName;
+
+	}
+
 	// inning id 받아오면 stat, player name, team 모두 갖고 올 수 있잖아
 
 	public int strike() {
@@ -317,6 +348,7 @@ public class PlayerDAO {
 		if (match <= 10) {
 			int lotto = ran.nextInt(9) + 1;
 			if (lotto == 1) {
+				System.out.println("!!!!!홈런!!!!! ");
 				return homerun();
 			} else if (lotto <= 3) {
 				return hit();
@@ -327,6 +359,7 @@ public class PlayerDAO {
 		} else if (match <= 50) {
 			int lotto = ran.nextInt(9) + 1;
 			if (lotto == 1) {
+				System.out.println("!!!!!홈런!!!!! ");
 				return homerun();
 			} else if (lotto <= 3) {
 				return strike();
@@ -334,14 +367,14 @@ public class PlayerDAO {
 				return hit();
 			}
 		} else {
-			int lotto = ran.nextInt(9)+1;
-			if(lotto == 1) {
+			int lotto = ran.nextInt(9) + 1;
+			if (lotto == 1) {
+				System.out.println("스트라이크..? 연봉을 생각하세요");
 				return strike();
-			}else if(lotto <= 3) {
+			} else if (lotto <= 3) {
 				return hit();
-			}else {
-				System.out.println("STRIKE");
-				return homerun();			
+			} else {
+				return homerun();
 			}
 		}
 

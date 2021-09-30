@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException {
 //커밋
 		Scanner sc = new Scanner(System.in);
 		userDAO dao = new userDAO();
@@ -15,6 +15,9 @@ public class Main {
 			int select = sc.nextInt();
 
 			if (select == 1) {
+
+				// login 구현하기
+
 				// login
 				System.out.println("--로그인--");
 				System.out.print("ID입력 : ");
@@ -35,14 +38,23 @@ public class Main {
 				while (true) {
 					System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면");
 					int select2 = sc.nextInt();
-					if (select2 == 1) {
-						// game
-						// randomPick()
+					if (select2 == 1) { // 경기시작
+						daoP.game(vo.getId(), daoP.enemyPick(id));
+
+						
+						
+						// 우리팀, 상대방 팀 불러오기
+						// String enemyId = daoP.enemyPick(id);
+						// int myPlayer;
+						// int enemyPlayer;
+						// System.out.println("내 출전선수 번호 "+ (myPlayer = daoP.playerPick(id)));
+						// System.out.println("상대 출전선수 번호 "+ (enemyPlayer = daoP.playerPick(enemyId)));
+						
 						// show_playerList
 						
-						// playerInput(선수등록)
+						// 승리시, playerInput(선수등록)
 						
-						// ranking
+						// 승리시, ranking
 					} else if (select2 == 2) {
 						// ranking
 						System.out.println("***BaseBall 랭킹!***");

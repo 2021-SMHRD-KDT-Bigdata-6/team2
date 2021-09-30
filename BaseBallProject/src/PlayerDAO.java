@@ -17,7 +17,7 @@ public class PlayerDAO {
 	private ResultSet rs;
 
 	private void getConn() {
-
+ 
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			String db_url = "jdbc:oracle:thin:@project-db-stu.ddns.net:1524:xe";
@@ -29,7 +29,6 @@ public class PlayerDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

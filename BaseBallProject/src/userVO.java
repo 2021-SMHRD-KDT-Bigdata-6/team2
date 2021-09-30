@@ -9,7 +9,7 @@ public class userVO {
 		
 		@Override
 		public String toString() {
-			return "userVO [id=" + id + ", team=" + team + ", score=" + score + "]";
+			return "아이디 " + id + "\t 구단명 " + team + "\t 점수 " + score ;
 		}
 
 		public userVO(String id, String pw) {

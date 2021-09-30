@@ -71,6 +71,24 @@ public class userDAO {
 
 		return info;
 	}
+	// 회원가입 아이디중복
+		public boolean check(String id) {
+			getConn();
+			String sql = "select user_id from users";
+			try {
+				psmt = conn.prepareStatement(sql);
+				rs = psmt.executeQuery();
+				
+				while(rs.next()) {
+					if(rs.getString("user_id").equals(id));
+					return true; // ---> 아이디가 중복일때 
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return false; // ---> 아이디가 중복되는게 없을때
+		}
 
 	// 회원가입
 	public int signup(userVO vo) {
@@ -83,10 +101,13 @@ public class userDAO {
 //		String pw = sc.next();
 //		System.out.print("구단명을 입력하세요 >> ");
 //		String team = sc.next();
-
-		// userVO vo = new userVO(id, pw, team);
-
-		try {
+//
+//		vo = new userVO(id, pw, team);
+				
+		if(check(vo.getId()) == true) {
+			System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요.");
+		}else {
+			try {
 			String spl = "insert into users values(?,?,?,?)";
 			
 			psmt = conn.prepareStatement(spl);
@@ -101,16 +122,35 @@ public class userDAO {
 		} finally {
 			close();
 		}
+		}
+		
+		
 
 		return cnt;
 	}
-
+	
+	
 	// 랭킹확인하기 ranking
+	
+	
 	public ArrayList<userVO> ranking() {
 
-		ArrayList<userVO> ranList = new ArrayList<userVO>();
 		getConn();
-
+		
+		// 사용자 랭킹확인????????????????????????????????
+		String sql2 = "select * from users where user_id = ?";
+		try {
+			psmt = conn.prepareStatement(sql2);
+			rs = psmt.executeQuery();
+			String id = rs.getString(1);
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		System.out.println(sql2);
+/////////////////////////////////////////////////////		
+		
+		ArrayList<userVO> ranList = new ArrayList<userVO>();
 		String sql = "select user_id, user_team, user_score from users order by user_score desc";
 		try {
 			psmt = conn.prepareStatement(sql);

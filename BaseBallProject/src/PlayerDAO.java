@@ -106,7 +106,7 @@ public class PlayerDAO {
 
 			String teamName = getTeamName(id);
 
-			System.out.println("축하드립니다!!  " + teamName + "이(가) 결성됐습니다!!");
+			//System.out.println("축하드립니다!!  " + teamName + "이(가) 결성됐습니다!!");
 			System.out.println();
 			System.out.println("===== " + teamName + " 선수 List =====");
 			// 팀명이 나오게
@@ -177,9 +177,9 @@ public class PlayerDAO {
 			System.out.println(userTeamName + "  VS  " + enemyTeamName);
 			System.out.println();
 
-			String sql2 = "select * from players where user_id = ? order by players_no";
-			psmt = conn.prepareStatement(sql2);
-			psmt.setString(1, enemyId);
+			String sql1 = "select * from players where user_id = ? order by players_no";
+			psmt = conn.prepareStatement(sql1);
+			psmt.setString(1, userId);
 			rs = psmt.executeQuery();
 			
 			int k = 0;
@@ -195,6 +195,10 @@ public class PlayerDAO {
 			}
 			System.out.println();
 			
+			String sql2 = "select * from players where user_id = ? order by players_no";
+			psmt = conn.prepareStatement(sql2);
+			psmt.setString(1, enemyId);
+			rs = psmt.executeQuery();
 			int j = 0;
 
 			// println ===상대방 선수 리스트===
@@ -467,14 +471,14 @@ public class PlayerDAO {
 		int choice = 0;
 		System.out.println("게임 시작 ! ");
 
-		while (gameCnt < 10) {
+		while (gameCnt < 9) {
 
 			System.out.println("===" + gameCnt + "이닝 시작 === ");
 
 			int result = inning(playerPick(id), playerPick(enemy));
 			if (result == 0) {
 				strike++;
-				if (strike == 3) {
+				if (strike == 3) {//strike ==3으로 고치기
 					System.out.println("---- ㅠ 삼 진 아 웃 ㅠ ----");
 					break;
 				}
@@ -498,9 +502,12 @@ public class PlayerDAO {
 		if (strike == 3) {
 			System.out.println("경기 결과 : 패배 ");
 
-		} else if (gameCnt == 10) {
+		} else if (gameCnt == 9) {
 			if (choice != 2) {
 				System.out.println("경기 결과 : 승리");
+				System.out.println("축하드립니다!! 승리에 대한 보상으로 선수 1명 추가등록하세요!");
+				playerInput(id);
+				showPlayerList(id);
 			}
 		}
 

@@ -145,7 +145,6 @@ public class PlayerDAO {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
 			rs = psmt.executeQuery();
-			
 
 			int i = 0;
 			// int i 왜 선언?
@@ -195,10 +194,9 @@ public class PlayerDAO {
 
 	}
 
-	
 	// 이걸 아래에 있는 game method에서 활용하고 싶은데
 	// 그럼 객체가 필요하니까...?
-	
+
 	public int playerPick(String newid) {
 		getConn();
 		// database연결
@@ -237,223 +235,309 @@ public class PlayerDAO {
 		// id다르게 입력하면 그에 맞는 playerPick
 	}
 
+	// id 입력받으면 stat 반환해주는 메소드
+	public int playerStat(int playerNo) {
+		//
+		int stat = 0;
+
+		getConn();
+		String getPlayerStat = "SELECT players_stat FROM players WHERE players_no = ?";
+		try {
+			psmt = conn.prepareStatement(getPlayerStat);
+			psmt.setInt(1, playerNo);
+			rs = psmt.executeQuery();
+
+			while (rs.next()) {
+				stat = rs.getInt("players_stat");
+			}
+
+			System.out.println("stat >> " + stat);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return stat;
+	}
+
+	public int inning(int userPlayerStat, int enemyPlayerStat) {
+		int match = userPlayerStat - enemyPlayerStat;
+		if (match <= 10) {
+			System.out.println("STRIKE");
+			return 0;
+		} else if (match <= 50) {
+			System.out.println("HIT!! 1점 획득");
+			return 1;
+		} else {
+			System.out.println("HOMERUN!! 2점 획득");
+			return 2;
+		}
+
+	}
+
+	public int getScore(String userId) {
+		getConn();
+		int score = 0;
+		try {
+			String userScoreSql = "SELECT user_score FROM users WHERE user_id = ?";
+			psmt = conn.prepareStatement(userScoreSql);
+			psmt.setString(1, userId);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				score = rs.getInt("user_score");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return score;
+	}
+
+	public void updateScore(String userId, int userScore) {
+		getConn();
+		int cnt;
+
+		String updateUserScore = "UPDATE users SET user_score = ? WHERE user_id = ?";
+		try {
+			psmt = conn.prepareStatement(updateUserScore);
+			psmt.setInt(1, userScore);
+			psmt.setString(2, userId);
+			cnt = psmt.executeUpdate();
+			if (cnt > 0) {
+				System.out.println("스코어 업데이트 완료");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	// game method
 	// 일단은 String id
 	public void game(String newId, String enemyId) throws ClassNotFoundException {
 // thorws부분 수정하기
 		getConn();
-		
+
 		String id = newId;
 		String enemy = enemyId;
-		
+
 		int userStat = 0;
 		int enemyStat = 0;
-		
+
 		int strike = 0;
 		int hit = 0;
 		int homerun = 0;
-		
-		int userScore = 0; // database에 저장된 user의 점수
-		int userGameScore = 0;//게임에서 얻는 점수
-		
+
+		int userScore = getScore(id); // database에 저장된 user의 점수
+		int userGameScore = 0;// 게임에서 얻는 점수
+
 		// 게임 종료 될 때 sql 활용해서 score update
-		
-		
-		ArrayList<Integer>userPlayerList = new ArrayList<Integer>();
-		
-		try {
-			
-			// user 현재 Score 불러오기
-			String userScoreSql = "SELECT * FROM users WHERE user_id = ?";
-			psmt = conn.prepareStatement(userScoreSql);
-			psmt.setString(1, id);
-			rs = psmt.executeQuery();
-			// players 번호 받아오기
-			
-			while(rs.next()) {
-				userScore = rs.getInt("user_score");
-			}
-			
-			
-			
-			String sql = "SELECT * FROM players WHERE user_id = ?";
-			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, id);
-			rs = psmt.executeQuery();
-			// players 번호 받아오기
-			
-			while(rs.next()) {
-				int playerNo = rs.getInt("players_no");
-				userPlayerList.add(playerNo);
-			}
-			// user의 playerList 만들어줌
-			
-			// 이제 여기서 선수 한 명 뽑기
-			// 이 선수를 게임 내내 쓸거임
-			
-			int userPick = userPlayerList.get(ran.nextInt(userPlayerList.size()));
-			System.out.println("userPick >> " + userPick);
-			// userPick에는 user팀의 선수 번호가 담겨있음
-			
-			// 이 선수의 stat을 갖고 와야 함
-			String sql2 = "SELECT * FROM players WHERE players_no = ?";
-			psmt = conn.prepareStatement(sql2);
-			psmt.setInt(1, userPick);
-			rs = psmt.executeQuery();
-			while(rs.next()) {
-			userStat = rs.getInt("players_stat");
-			System.out.println("userPlayerNo >> " + userPick);
-			System.out.println("userStat >> " + userStat);
-			}
-			
-			// ==== 여기는 이제 상대팀 고르는 부분 ====
-			// enemyId는 받아옴 -> 이걸 활용해서 상대팀 랜덤으로 한 명 뽑아주기
-			// 단, 게임이 1회씩 진행될 때마다 선수는 바뀌어야 함
-			
+
+		getScore(id);
+		System.out.println("현재 사용자 스코어 받아오기 >> " + getScore(id));
+
+		playerPick(id);
+		System.out.println("사용자 랜덤 선수 받아오기 >> " + playerPick(id));
+		playerPick(enemy);
+		System.out.println("사용자 랜덤 선수 받아오기 >> " + playerPick(enemy));
+
+		// ====== 게임 진행 ======
+
+		int gameCnt = 1; // 1회, 2회... 쉽게 진행하기 위해 1로 값 넣엊움
+		System.out.println("게임 시작 ! ");
+
+		while (gameCnt < 10) {
+
+			int myPlayerStat = playerStat(playerPick(id));
+			System.out.println("메소드로 받아온 player stat " + myPlayerStat);
+
+			int enemyPlayerStat = playerStat(playerPick(enemy));
+			System.out.println("메소드로 받아온 enemy stat " + enemyPlayerStat);
+
+			int result = inning(myPlayerStat, enemyPlayerStat);
+			userGameScore += result;
+			// userGameScore += inning(playerPick(id), playerPick(enemy));
+			// 이렇게도 수정 가능할듯?
+			gameCnt++;
+		}
+
+		// scoreUpdate method
+		userScore += userGameScore;
+		updateScore(id, userScore);
+
+		System.out.println("게임이 종료됐습니다.");
+		// score update했으니까 변화해야함
+		System.out.println("현재 당신의 총 점수는 >> " + getScore(id));
+
+		// gameCnt
+
+//		ArrayList<Integer>userPlayerList = new ArrayList<Integer>();
+
+		// try {
+
+		// int userPick = userPlayerList.get(ran.nextInt(userPlayerList.size()));
+		// System.out.println("userPick >> " + userPick);
+		// userPick에는 user팀의 선수 번호가 담겨있음
+
+		// 우리팀 player stat
+
+//			String sql2 = "SELECT * FROM players WHERE players_no = ?";
+//			psmt = conn.prepareStatement(sql2);
+//			psmt.setInt(1, userPick);
+//			rs = psmt.executeQuery();
+//			while(rs.next()) {
+//			userStat = rs.getInt("players_stat");
+//			System.out.println("userPlayerNo >> " + userPick);
+//			System.out.println("userStat >> " + userStat);
+//			}
+
+		// ==== 여기는 이제 상대팀 고르는 부분 ====
+		// enemyId는 받아옴 -> 이걸 활용해서 상대팀 랜덤으로 한 명 뽑아주기
+		// 단, 게임이 1회씩 진행될 때마다 선수는 바뀌어야 함
+
 //			enemyId = enemyPick(id);
+		// enemyId
 //			int enemyNum = playerPick(enemyId);//상대방팀 선수 번호중 하나를 랜덤으로 얻기
-			
-			ArrayList<Integer>enemyPlayerList = new ArrayList<Integer>();
-			
-			String sql3 = "SELECT players_no FROM players WHERE user_id = ?";
-			psmt = conn.prepareStatement(sql3);
-			psmt.setString(1, enemy);
-			rs = psmt.executeQuery();
-			while(rs.next()) {
-				int enemyPlayer = rs.getInt("players_no");
-				enemyPlayerList.add(enemyPlayer);
-			}
-			
-			int gameCnt = 1; // 1회, 2회... 쉽게 진행하기 위해 1로 값 넣엊움
-			
-			System.out.println("게임 시작 ! ");
-			while(gameCnt < 10) { // game 9회 진행될때까지 진행
-				// 게임이 진행될 때마다 상대방 선수 달라져야하니까 여기서 랜덤 선수 뽑아주기
-				System.out.println("***"+gameCnt+"회 시작 ***");
-				int enemyPick = enemyPlayerList.get(ran.nextInt(enemyPlayerList.size()));
-				
-				
-				// enemyPick의 stat 저장해주기
-				String sql4 = "SELECT * FROM players WHERE players_no = ?";
-				psmt = conn.prepareStatement(sql4);
-				psmt.setInt(1, enemyPick);
-				rs = psmt.executeQuery();
-				while(rs.next()) {
-				enemyStat = rs.getInt("players_stat");
-				System.out.println("enemyPlayerNo >> " + enemyPick);
-				System.out.println("enemyStat >> " + enemyStat);
-				}
-				
-				
-				int match = userStat - enemyStat;
-				System.out.println("match : "+match);
-				if(match <= 10) {
-					if(strike == 3) {
-						System.out.println("!!삼 진 아 웃!!");
-						break;
-					}else if(strike==1) {
-						System.out.println("strike : ●○○");
-					}else if(strike==2) {
-						System.out.println("strike : ●●○");
-					}
-					strike++;
-					System.out.println("STRIKE");
-				}else if(match <= 50) {
-					hit++;
-					userGameScore++;
-					System.out.println("HIT !! 1 점 획득");
-					System.out.println("현재 점수 >> " + userGameScore);
-				}else{
-					homerun++;
-					userGameScore += 2;
-					System.out.println("HOMERUN !!2 점 획득");
-					System.out.println("현재 점수 >> " + userGameScore);
-					
-				}
-				System.out.println("=== "+gameCnt + "회 종료! ===");
-				gameCnt++;
-				
-				
-			}
-			System.out.println("게임이 종료됐습니다.");
-			if(gameCnt==9) {
-				if(strike != 3) {
-					System.out.println("게임에서 승리하셨습니다.");
-					System.out.println("새로운 선수 1명을 등록해주세요.");
-					
-					int cnt = 0;
-					System.out.println("ID >> ");					
-					String newid = sc.next();
-					System.out.println("PW >> ");					
-					String newPw = sc.next();
-					System.out.println("TEAM >> ");					
-					String newTeam = sc.next();
 
-					// 근데 team은 기존 team으로 미리 등록해주면 좋지 않을까?
-					// 일단은 그냥 입력받자
-					// 여유되면 이 부분 수정하기 -> 기존 team넣어주도록
+//			ArrayList<Integer>enemyPlayerList = new ArrayList<Integer>();
+//			
+//			String sql3 = "SELECT players_no FROM players WHERE user_id = ?";
+//			psmt = conn.prepareStatement(sql3);
+//			psmt.setString(1, enemy);
+//			rs = psmt.executeQuery();
+//			while(rs.next()) {
+//				int enemyPlayer = rs.getInt("players_no");
+//				enemyPlayerList.add(enemyPlayer);
+//			}
 
-					// 새로운 선수등록 method로 따로 빼기
-					// return 하게 해서 할까?
-					
-					int newStat = ran.nextInt(100)+1;
-					
-					String updatePlayer = "insert into users values(?,?,?,?)";
-					
-					psmt = conn.prepareStatement(updatePlayer);
-					
-					psmt.setString(1, newid);
-					psmt.setString(2, newPw);
-					psmt.setString(3, newTeam);
-					psmt.setInt(4, newStat);
-					cnt = psmt.executeUpdate();
-				}
-				
-				
-			}else {
-				System.out.println("패배하셨습니다.");				
-			}
-			System.out.println("-- 경기결과 -- ");
-			System.out.println("HIT : "+ hit +"개");
-			System.out.println("HOMERUN : "+ homerun +"개");
-			System.out.println("획득점수 : "+ userGameScore);
-			
-			System.out.println("게임이 종료됐습니다.");
-			
-			
-			
-			String updateUserScore = "UPDATE users SET user_score = ? WHERE user_id = ?";
-			psmt = conn.prepareStatement(updateUserScore);
-			psmt.setInt(1, userGameScore+userScore);
-			psmt.setString(2, id);
-			int row = psmt.executeUpdate();
-			// 이거 catch 안넣어줘도 되나?
-			// 계속 안들어감....
-			if(row > 0) {
-				System.out.println("점수 업데이트 완료");
-			}else {
-				System.out.println("오류발생");
-			}
-			
-			String checkUserScore = "SELECT user_score FROM users WHERE user_id = ?";
-			psmt = conn.prepareStatement(checkUserScore);
-			psmt.setString(1, id);
-			rs = psmt.executeQuery();
-			
-			while(rs.next()) {
-				int checkScore = rs.getInt("user_score");
-				System.out.println("현재 전체 점수는 >> " + checkScore);
-			}
-			
-			
-			
-			
-			
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}   
+//			while(gameCnt < 10) { // game 9회 진행될때까지 진행
+//				// 게임이 진행될 때마다 상대방 선수 달라져야하니까 여기서 랜덤 선수 뽑아주기
+//				System.out.println("***"+gameCnt+"회 시작 ***");
+//				// int enemyPick = enemyPlayerList.get(ran.nextInt(enemyPlayerList.size()));
+//				
+//				
+//				// enemyPick의 stat 저장해주기
+//				String sql4 = "SELECT * FROM players WHERE players_no = ?";
+//				psmt = conn.prepareStatement(sql4);
+//				psmt.setInt(1, enemyPick);
+//				rs = psmt.executeQuery();
+//				while(rs.next()) {
+//				enemyStat = rs.getInt("players_stat");
+//				System.out.println("enemyPlayerNo >> " + enemyPick);
+//				System.out.println("enemyStat >> " + enemyStat);
+//				}
+//				
+//				
+//				int match = userStat - enemyStat;
+//				System.out.println("match : "+match);
+//				if(match <= 10) {
+//					if(strike == 3) {
+//						System.out.println("!!삼 진 아 웃!!");
+//						break;
+//					}else if(strike==1) {
+//						System.out.println("strike : ●○○");
+//					}else if(strike==2) {
+//						System.out.println("strike : ●●○");
+//					}
+//					strike++;
+//					System.out.println("STRIKE");
+//				}else if(match <= 50) {
+//					hit++;
+//					userGameScore++;
+//					System.out.println("HIT !! 1 점 획득");
+//					System.out.println("현재 점수 >> " + userGameScore);
+//				}else{
+//					homerun++;
+//					userGameScore += 2;
+//					System.out.println("HOMERUN !!2 점 획득");
+//					System.out.println("현재 점수 >> " + userGameScore);
+//					
+//				}
+//				System.out.println("=== "+gameCnt + "회 종료! ===");
+//				gameCnt++;
+//				
+//				
+//			}
+
+//			if(gameCnt==9) {
+//				if(strike != 3) {
+//					System.out.println("게임에서 승리하셨습니다.");
+//					System.out.println("새로운 선수 1명을 등록해주세요.");
+//					
+//					int cnt = 0;
+//					System.out.println("ID >> ");					
+//					String newid = sc.next();
+//					System.out.println("PW >> ");					
+//					String newPw = sc.next();
+//					System.out.println("TEAM >> ");					
+//					String newTeam = sc.next();
+//
+//					// 근데 team은 기존 team으로 미리 등록해주면 좋지 않을까?
+//					// 일단은 그냥 입력받자
+//					// 여유되면 이 부분 수정하기 -> 기존 team넣어주도록
+//
+//					// 새로운 선수등록 method로 따로 빼기
+//					// return 하게 해서 할까?
+//					
+//					int newStat = ran.nextInt(100)+1;
+//					
+//					String updatePlayer = "insert into users values(?,?,?,?)";
+//					
+//					psmt = conn.prepareStatement(updatePlayer);
+//					
+//					psmt.setString(1, newid);
+//					psmt.setString(2, newPw);
+//					psmt.setString(3, newTeam);
+//					psmt.setInt(4, newStat);
+//					cnt = psmt.executeUpdate();
+//				}
+//				
+//				
+//			}else {
+//				System.out.println("패배하셨습니다.");				
+//			}
+
+//			System.out.println("-- 경기결과 -- ");
+//			System.out.println("HIT : "+ hit +"개");
+//			System.out.println("HOMERUN : "+ homerun +"개");
+//			System.out.println("획득점수 : "+ userGameScore);
+//			
+//			System.out.println("게임이 종료됐습니다.");
+//			
+//			
+//			
+//			String updateUserScore = "UPDATE users SET user_score = ? WHERE user_id = ?";
+//			psmt = conn.prepareStatement(updateUserScore);
+//			psmt.setInt(1, userGameScore+userScore);
+//			psmt.setString(2, id);
+//			int row = psmt.executeUpdate();
+//			// 이거 catch 안넣어줘도 되나?
+//			// 계속 안들어감....
+//			if(row > 0) {
+//				System.out.println("점수 업데이트 완료");
+//			}else {
+//				System.out.println("오류발생");
+//			}
+//			
+//			String checkUserScore = "SELECT user_score FROM users WHERE user_id = ?";
+//			psmt = conn.prepareStatement(checkUserScore);
+//			psmt.setString(1, id);
+//			rs = psmt.executeQuery();
+//			
+//			while(rs.next()) {
+//				int checkScore = rs.getInt("user_score");
+//				System.out.println("현재 전체 점수는 >> " + checkScore);
+//			}
+//			
+//			
+//			
+//			
+//			
+//			
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}   
 
 	}
 

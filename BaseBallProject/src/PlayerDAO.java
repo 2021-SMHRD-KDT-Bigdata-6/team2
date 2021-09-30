@@ -308,7 +308,7 @@ public class PlayerDAO {
 
 	}
 
-	// inning id 받아오면 stat, player name, team 모두 갖고 올 수 있잖아
+
 
 	public int strike() {
 		System.out.println("STRIKE");

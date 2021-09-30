@@ -165,7 +165,8 @@ public class PlayerDAO {
 			// 여기서 오류 발생 -> 해결
 			// id 해결, userList 채워줌
 			// enemyId 는, userList에서 userList길이만큼 랜덤숫자 중 하나 걸린거
-
+			
+			ArrayList<PlayerVO> myList = new ArrayList<PlayerVO>();
 			ArrayList<PlayerVO> enemyList = new ArrayList<PlayerVO>();
 			// 상대방list
 
@@ -188,8 +189,8 @@ public class PlayerDAO {
 			while (rs.next()) {
 				String name = rs.getString("PLAYERS_NAME");
 				int stat = rs.getInt("PLAYERS_STAT");
-				enemyList.add(new PlayerVO(name, stat));
-				System.out.println(enemyList.get(k).toString());
+				myList.add(new PlayerVO(name, stat));
+				System.out.println(myList.get(k).toString());
 				k++;
 
 			}

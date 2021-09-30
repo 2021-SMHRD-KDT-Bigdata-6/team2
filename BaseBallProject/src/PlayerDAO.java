@@ -481,23 +481,28 @@ public class PlayerDAO {
 					System.out.println("===" + gameCnt + "이닝 시작 === ");
 					
 					int result = inning(playerPick(id), playerPick(enemy));
+					userGameScore += result;
 					if (result == 0) {
 						strike++;
-						if (strike == 10) {// strike ==3으로 고치기
+						if (strike == 3) {// strike ==3으로 고치기
 							System.out.println("---- ㅠ 삼 진 아 웃 ㅠ ----");
+							System.out.println("총 획득 점수 : "+userGameScore);
 							break;
 						}
 					}
-					userGameScore += result;
+					
 
 					// 게임 진행 계속 할건지 물어보기
 					if (gameCnt == 9) {
+						System.out.println("총 획득 점수 : "+userGameScore);
 						break;
 					} else {
 						System.out.print("[1] 다음 이닝 [2] 경기포기 >> ");
 						choice = sc.nextInt();
 					}
 					if (choice == 2) {
+						System.out.println("획득한 점수가 모두 사라졌습니다!!");
+						userGameScore = 0;
 						break;
 					}
 				}
@@ -506,7 +511,7 @@ public class PlayerDAO {
 
 				System.out.println("게임이 종료됐습니다.");
 
-				if (strike == 10) {
+				if (strike == 3) {
 					System.out.println("경기 결과 : 패배 ");
 
 				} else if (gameCnt == 9) {

@@ -309,6 +309,10 @@ public class PlayerDAO {
 			// ==== 여기는 이제 상대팀 고르는 부분 ====
 			// enemyId는 받아옴 -> 이걸 활용해서 상대팀 랜덤으로 한 명 뽑아주기
 			// 단, 게임이 1회씩 진행될 때마다 선수는 바뀌어야 함
+			
+//			enemyId = enemyPick(id);
+//			int enemyNum = playerPick(enemyId);//상대방팀 선수 번호중 하나를 랜덤으로 얻기
+			
 			ArrayList<Integer>enemyPlayerList = new ArrayList<Integer>();
 			
 			String sql3 = "SELECT players_no FROM players WHERE user_id = ?";
@@ -342,6 +346,7 @@ public class PlayerDAO {
 				
 				
 				int match = userStat - enemyStat;
+				System.out.println("match : "+match);
 				if(match <= 10) {
 					if(strike == 3) {
 						System.out.println("!!삼 진 아 웃!!");

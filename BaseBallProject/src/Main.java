@@ -55,22 +55,27 @@ public class Main {
 								// ½Â¸®½Ã, ranking
 							} else if (select2 == 2) {
 								// ranking
-								System.out.println("***BaseBall ·©Å·!***");
+								System.out.println("                 ***BaseBall ·©Å·!***");
 								ArrayList<userVO> ranList = dao.ranking();
 								for (int i = 0; i < ranList.size(); i++) {
 									if(info.getId().equals(ranList.get(i).getId())) {
-										System.out.println("============== \t" + info.getId() + " ´ÔÀÇ ·©Å· \t========================");
-										System.out.print(i + 1 + "À§ ");
-										System.out.print(ranList.get(i));
+										System.out.println("========================================================");
+										System.out.println("                    " + info.getId() + " ´ÔÀÇ ·©Å·");
+										System.out.println("--------------------------------------------------------");
+										System.out.printf("%6s", i + 1 + "À§   ");
+										System.out.printf("%-10s \t%-20s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(), ranList.get(i).getScore());
 										System.out.println();
 										System.out.println("========================================================");
 										
 									}
 								}
+								System.out.printf("%5s %-10s \t%-20s \t%-10s", "¼øÀ§  ", "¾ÆÀÌµð", "±¸´Ü¸í", "Á¡¼ö");
+								System.out.println();
+								System.out.println("--------------------------------------------------------");
 								for (int i = 0; i < ranList.size(); i++) {
 									
-									System.out.print(i + 1 + "À§ ");
-									System.out.print(ranList.get(i));
+									System.out.printf("%6s", i + 1 + "À§   ");
+									System.out.printf("%-10s \t%-20s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(), ranList.get(i).getScore());
 									System.out.println();
 								}
 							} else if (select2 == 3) {

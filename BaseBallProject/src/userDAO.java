@@ -137,19 +137,6 @@ public class userDAO {
 
 		getConn();
 		
-		// 사용자 랭킹확인????????????????????????????????
-		String sql2 = "select * from users where user_id = ?";
-		try {
-			psmt = conn.prepareStatement(sql2);
-			rs = psmt.executeQuery();
-			String id = rs.getString(1);
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		System.out.println(sql2);
-/////////////////////////////////////////////////////		
-		
 		ArrayList<userVO> ranList = new ArrayList<userVO>();
 		String sql = "select user_id, user_team, user_score from users order by user_score desc";
 		try {

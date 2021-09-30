@@ -58,6 +58,17 @@ public class Main {
 								System.out.println("***BaseBall ·©Å·!***");
 								ArrayList<userVO> ranList = dao.ranking();
 								for (int i = 0; i < ranList.size(); i++) {
+									if(info.getId().equals(ranList.get(i).getId())) {
+										System.out.println("============== \t" + info.getId() + " ´ÔÀÇ ·©Å· \t========================");
+										System.out.print(i + 1 + "À§ ");
+										System.out.print(ranList.get(i));
+										System.out.println();
+										System.out.println("========================================================");
+										
+									}
+								}
+								for (int i = 0; i < ranList.size(); i++) {
+									
 									System.out.print(i + 1 + "À§ ");
 									System.out.print(ranList.get(i));
 									System.out.println();

@@ -108,7 +108,16 @@ public class PlayerDAO {
 			psmt.setString(1, id);
 			rs = psmt.executeQuery();
 
-			System.out.println("축하드립니다!!  "+id+"님의 팀이 결성됐습니다!!");
+			String sql2 = "select user_team from users where user_id = ?";
+			psmt = conn.prepareStatement(sql2);
+			psmt.setString(1, id);
+			ResultSet rs2 = psmt.executeQuery();
+			rs.next();
+			String team = rs2.getString("user_team");
+			
+			
+			
+			System.out.println("축하드립니다!!  "+id+"님의 구단"+team+"이(가) 결성됐습니다!!");
 			int i = 0;
 			
 			while (rs.next()) {

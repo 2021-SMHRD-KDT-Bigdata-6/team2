@@ -495,7 +495,7 @@ public class PlayerDAO {
 		int userGameScore = 0;
 
 
-
+		
 		playerPick(id);
 		playerPick(enemy);
 
@@ -507,6 +507,7 @@ public class PlayerDAO {
 
 				int gameCnt = 0;
 				int choice = 0;
+
 				
 				System.out.println("      /            /");
 				System.out.println("     / GAME START / ");			     
@@ -524,6 +525,7 @@ public class PlayerDAO {
 						gameCnt--;
 						break;
 					}else if (result == 0) {
+						// STRIKEÀÏ °æ¿ì
 						strike++;
 						if (strike == 3) {
 							System.out.println("---- ¤Ð »ï Áø ¾Æ ¿ô ¤Ð ----");
@@ -531,6 +533,7 @@ public class PlayerDAO {
 							break;
 						}
 					}
+					
 
 					if (gameCnt == 9) {
 						System.out.println("ÃÑ È¹µæ Á¡¼ö : "+userGameScore);

@@ -359,39 +359,47 @@ public class PlayerDAO {
 	
 	public void baseballAscii() {
 		System.out.println(
-				"                       ____\r\n"
-				+ "                     .'    '.\r\n"
-				+ "                    /'-....-'\\\r\n"
-				+ "                    |        |\r\n"
-				+ "                    \\.-''''-./\r\n"
-				+ "                     '.____.'");
+				"                                              _-- _      ***  \r\n"
+				+"                                           __(_  )     **\r\n"
+				+"                                             <  (D)  .**\r\n"
+				+"                                            .~ \\ /~```\r\n"
+				+"                                          .~    V    *_ \r\n "
+				+"                                         (   (___. {:)-./\r\n"
+				+"                                           ~._____.(:}\r\n"
+				+"                     _____                  |       | \r\n"
+				+"                   .'     '.               /        \\ \r\n"
+				+"                  /  ball   |            /          \\ \r\n"
+				+"                 |          |            /   /  \\    \\ \r\n"
+				+"                  \\.-''''-./           /   /    \\   \\ \r\n"
+				+"                   '.____.'             \\__/      \\__/ \r\n"
+				+"                                         / /        | | \r\n"
+				+"                                        .^V^.      .^V^. \r\n"
+				+"                                        +-+        +-+ \r\n");
 		
 	}
 	
 	public void hitAscii() {
-		System.out.println("\r\n"
-				+ "                _        ____                                       __\r\n"
-				+ "               / \\     .'    '.        ____......------\"\"\"\"\"\"\"\"`````  `\\\r\n"
-				+ "              |   `::-/'-....-'\\--\"\"```                                 |\r\n"
-				+ "              |    :: |        |                                        |\r\n"
-				+ "              |   ,:'-\\.-''''-./--..___                                /\r\n"
-				+ "               \\_/     '.____.'        ````````````\"\"\"\"\"\"\"------------'\r\n"
-				+ "				");
+		System.out.println("        _         ____                                               __\r\n"
+				+ "                / \\     .'    '.        ____......------\"\"\"\"\"\"\"\"`````  `  \\  \r\n"
+				+ "               |   `::-/'-....-'\\--\"\"```                                          |\r\n"
+				+ "               |    :: |          |                                                  |\r\n"
+				+ "               |   ,:'-\\.-''''-./--..___                                            /\r\n"
+				+ "                \\_/     '.____.'        ````````````\"\"\"\"\"\"\"-----------------'");
 	}
 
 	public void lottoHitAscii() {
-		System.out.println("                      ┏━┳━┳━┓     ┏━┳━┳━┓     ┏━┳━┳━┓");
-		System.out.println("                      ┃H┃I┃T┃     ┃H┃I┃T┃     ┃H┃I┃T┃");
-		System.out.println("                      ┗━┻━┻━┛     ┗━┻━┻━┛     ┗━┻━┻━┛");
+		System.out.println("            ┏━┳━┳━┓     ┏━┳━┳━┓     ┏━┳━┳━┓");
+		System.out.println("            ┃H┃I┃T┃     ┃H┃I┃T┃     ┃H┃I┃T┃");
+		System.out.println("            ┗━┻━┻━┛     ┗━┻━┻━┛     ┗━┻━┻━┛");
 
 	}
 	
 	public void homerunAscii() {
-				System.out.println("                ＿人人人人人人人＿");
-				System.out.println("                ＞   홈  런  ＜");
-				System.out.println("                ＞   홈  런  ＜");
-				System.out.println("                ＞   홈  런  ＜");
-				System.out.println("                ￣Y^Y^Y^Y^Y^￣");
+				System.out.println("              ＿人人人人人人人＿");
+				System.out.println("              ＞   홈  런  ＜");
+				System.out.println("              ＞   홈  런  ＜");
+				System.out.println("              ＞   홈  런  ＜");
+				System.out.println("              ￣Y^Y^Y^Y^Y^￣");
 
 	}
 	
@@ -411,22 +419,22 @@ public class PlayerDAO {
 	public int strike() {
 		System.out.println();
 		System.out.println("       ※※※※※ 투수 공을 바라보기만 합니다! ※※※※※");
+		System.out.println("               >> STRIKE ");
 		baseballAscii();
-		System.out.println(">>> STRIKE");
 		return 0;
 	}
 
 	public int lottoStrike() {
 		System.out.println();
 		System.out.println("         ※※※※※ 스트라이크라니..? ※※※※※");
-		baseballAscii();
 		System.out.println("               ＼＼ STRIKE ／／");
+		baseballAscii();
 		return 0;
 	}
 
 	public int lottoHit() {
 		System.out.println();
-		System.out.println("         ※※※※※세이프티 번트 성공 ※※※※※");
+		System.out.println("            ※※※※※세이프티 번트 성공 ※※※※※");
 		lottoHitAscii();
 		hitAscii();
 		System.out.println();
@@ -487,10 +495,10 @@ public class PlayerDAO {
 		int match = userPlayerStat - enemyPlayerStat;
 
 		if (match == 0) {
-			System.out.println("＿人人人人人人＿");
-			System.out.println("＞벤치 클리어링＜");
-			System.out.println("＞(같은능력치)＜");
-			System.out.println("￣Y^Y^Y^Y^Y￣");
+			System.out.println("     ＿人人人人人人＿");
+			System.out.println("     ＞벤치 클리어링＜");
+			System.out.println("     ＞(같은능력치)＜");
+			System.out.println("     ￣Y^Y^Y^Y^Y￣");
 			return -1;
 		} else if (match <= 10) {
 			int lotto = ran.nextInt(9) + 1;
@@ -552,9 +560,7 @@ public class PlayerDAO {
 			psmt.setInt(1, userScore);
 			psmt.setString(2, userId);
 			cnt = psmt.executeUpdate();
-			if (cnt > 0) {
-				System.out.println("스코어 업데이트 완료");
-			}
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -604,19 +610,28 @@ public class PlayerDAO {
 
 					if (result == -1) {
 						
-						break;
+						System.out.println("싸움이 나서 경기 중단");
 					} else if (result == 0) {
 						// STRIKE일 경우
 						strike++;
 						if (strike == 3) {
-							System.out.println("---- ㅠ 삼 진 아 웃 ㅠ ----");
+							System.out.println();
+							System.out.println("           ※※※※※ 루킹스트라이크 아웃 ※※※※※");
+							System.out.println(
+									 "                 ┳┳    ┳┳\r\n"
+									+ "                 삼     삼   \r\n"
+									+ "               진      진　  　\r\n"
+									+ "                 아      아   \r\n"
+									+ "               웃  ━━━━━ 웃");
+							
+							System.out.println();
 							System.out.println("총 획득 점수 : " + userGameScore);
 							break;
 						}else if(strike == 1) {
-							System.out.println("strike : ●○○");
+							System.out.println("S : ●○○");
 							System.out.println();
 						}else if(strike == 2) {
-							System.out.println("strike : ●●○");
+							System.out.println("S : ●●○");
 							System.out.println();
 						}
 					}

@@ -41,9 +41,9 @@ public class Main {
 						// 승리시, ranking
 					} else if (select2 == 2) {
 						// ranking
-						
+
 						dao.showRanking(dao.getRanking(), id);
-					
+
 					} else if (select2 == 3) {
 						System.out.println("메인으로 돌아갑니다.");
 						break;
@@ -58,35 +58,18 @@ public class Main {
 				// signup
 				// playerInput(선수등록)
 				// show_playerList
-				int signUp = 0;
-				while (signUp == 0) {
-					System.out.print("아이디를 입력하세요 >> ");
-					String id = sc.next();
-					System.out.print("비밀번호를 입력하세요 >> ");
-					String pw = sc.next();
-					System.out.print("구단명을 입력하세요 >> ");
-					String team = sc.next();
-
-					userVO vo = new userVO(id, pw, team);
-					int cnt = dao.signup(vo);
-
-					if (cnt > 0) {
-						System.out.println("회원가입 성공!");
-						signUp++;
-						System.out.println("====선수영입을 시작합니다.====");
-						System.out.println("최초에 5명의 선수를 영입할 수 있습니다.");
-
-						int cnt2 = 0;
-						while (cnt2 < 5) {
-							daoP.playerInput(id);
-							cnt2++;
-						}
-						System.out.println();
-						daoP.showPlayerList(id);
-					} // else {
+				String id = dao.signUp();
+				int cnt2 = 0;
+				while (cnt2 < 5) {
+					daoP.playerInput(id);
+					cnt2++;
+				}
+				System.out.println();
+				daoP.showPlayerList(id);
+				// else {
 //						System.out.println("회원가입 실패...");
 //					}
-				}
+
 				// show_playerList
 
 			} else if (select == 3) {

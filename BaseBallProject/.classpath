@@ -11,7 +11,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/smhrd/Desktop/player/player.jar">
+=======
+	<classpathentry kind="lib" path="play/player.jar">
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

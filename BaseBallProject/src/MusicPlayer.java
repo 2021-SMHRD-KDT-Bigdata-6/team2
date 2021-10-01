@@ -11,10 +11,10 @@ public class MusicPlayer {
 	
 	
 	public MusicPlayer() {
-		musicList.add(new Music("배경음악","C:\\Users\\smhrd\\Desktop\\김대우\\미니프로젝트\\soundeffect\\backgroundmusic.mp3"));
-		musicList.add(new Music("안타","C:\\Users\\smhrd\\Desktop\\김대우\\미니프로젝트\\soundeffect\\hit.mp3"));
-		musicList.add(new Music("홈런","C:\\Users\\smhrd\\Desktop\\김대우\\미니프로젝트\\soundeffect\\homerun.mp3"));
-		musicList.add(new Music("스트라이크","C:\\Users\\smhrd\\Desktop\\김대우\\미니프로젝트\\soundeffect\\strike.mp3"));
+		musicList.add(new Music("배경음악","play\\backgroundmusic.mp3"));
+		musicList.add(new Music("안타","play\\hit.mp3"));
+		musicList.add(new Music("홈런","play\\homerun.mp3"));
+		musicList.add(new Music("스트라이크","play\\strike.mp3"));
 	}
 	
 	public void play(int numMusic) {

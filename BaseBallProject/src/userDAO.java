@@ -83,7 +83,7 @@ public class userDAO {
 					if (check(vo.getId()) == true) {
 						System.out.println("비밀번호가 틀렸습니다. 다시 입력해주세요.");
 					} else if(check(vo.getId()) != true) {
-						System.out.println("아이디와 비밀번호를 다시 입력해주세요.");
+						System.out.println("존재하지 않는 아이디입니다. 다시 입력해주세요.");
 					}
 					
 				}

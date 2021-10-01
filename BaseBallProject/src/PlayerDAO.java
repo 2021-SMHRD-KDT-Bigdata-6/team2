@@ -105,7 +105,7 @@ public class PlayerDAO {
 
 			String teamName = getTeamName(id);
 
-			System.out.println("축하드립니다!!  " + teamName + "이(가) 결성됐습니다!!");
+			// System.out.println("축하드립니다!! " + teamName + "이(가) 결성됐습니다!!");
 			System.out.println();
 			System.out.println("===== " + teamName + " 선수 List =====");
 			// 팀명이 나오게
@@ -165,6 +165,7 @@ public class PlayerDAO {
 			// id 해결, userList 채워줌
 			// enemyId 는, userList에서 userList길이만큼 랜덤숫자 중 하나 걸린거
 
+			ArrayList<PlayerVO> myList = new ArrayList<PlayerVO>();
 			ArrayList<PlayerVO> enemyList = new ArrayList<PlayerVO>();
 			// 상대방list
 
@@ -176,11 +177,28 @@ public class PlayerDAO {
 			System.out.println(userTeamName + "  VS  " + enemyTeamName);
 			System.out.println();
 
+			String sql1 = "select * from players where user_id = ? order by players_no";
+			psmt = conn.prepareStatement(sql1);
+			psmt.setString(1, userId);
+			rs = psmt.executeQuery();
+
+			int k = 0;
+
+			System.out.println("===== " + userTeamName + " 선수 List =====");
+			while (rs.next()) {
+				String name = rs.getString("PLAYERS_NAME");
+				int stat = rs.getInt("PLAYERS_STAT");
+				myList.add(new PlayerVO(name, stat));
+				System.out.println(myList.get(k).toString());
+				k++;
+
+			}
+			System.out.println();
+
 			String sql2 = "select * from players where user_id = ? order by players_no";
 			psmt = conn.prepareStatement(sql2);
 			psmt.setString(1, enemyId);
 			rs = psmt.executeQuery();
-
 			int j = 0;
 
 			// println ===상대방 선수 리스트===
@@ -222,18 +240,12 @@ public class PlayerDAO {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
 			rs = psmt.executeQuery();
-			// resultQuery 에는 id가 같은 값들이 담길거야
 
 			while (rs.next()) {
-				// rs가 존재하는 동안
 				int playerNo = rs.getInt("players_no");
-				// playerNo를 받아와서
 				playerList.add(playerNo);
-				// playerList에 넣어주기
 			}
 
-			// playerList에서 랜덤으로 한 명 뽑아서 보여주기
-			// 여기서는 숫자만 반환해주는 용도
 			playerPick = playerList.get(ran.nextInt(playerList.size()));
 
 		} catch (SQLException e) {
@@ -261,7 +273,6 @@ public class PlayerDAO {
 			while (rs.next()) {
 				stat = rs.getInt("players_stat");
 			}
-			// System.out.println("stat >> " + stat);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -309,7 +320,25 @@ public class PlayerDAO {
 	}
 
 
-
+	
+	public String getUserId(int playerNo) {
+		getConn();
+		String userId = null;
+		try {
+			String getUserId = "SELECT user_id FROM players WHERE players_no = ?";
+			psmt= conn.prepareStatement(getUserId);
+			psmt.setInt(1, playerNo);
+			rs = psmt.executeQuery();
+			rs.next();
+			userId = rs.getString("user_id");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return userId;
+	}
+	
 	public int strike() {
 		System.out.println("STRIKE");
 		return 0;
@@ -324,25 +353,31 @@ public class PlayerDAO {
 		System.out.println("HOMERUN!! 2점 획득");
 		return 2;
 	}
+	
+
+	
+	public String getTeamId(int playerNo) {
+		return null;
+	}
 
 	public int inning(int userPlayer, int enemyPlayer) {
 
 		// player Name 갖고오기
 		String userPlayerName = getPlayerName(userPlayer);
 		String enemyPlayerName = getPlayerName(enemyPlayer);
+		// getTeamName => String id(team id 필요)
 
 		// stat 갖고오기
 		int userPlayerStat = playerStat(userPlayer);
 		int enemyPlayerStat = playerStat(enemyPlayer);
 
-		System.out.print("우리팀 선수 : " + userPlayerName);
-		System.out.print(" / 스탯 : " + userPlayerStat);
+		System.out.print(getTeamName(getUserId(userPlayer))+"팀 선수 : " + userPlayerName);
+		System.out.print("(" + userPlayerStat + ")");
 		System.out.print("  VS ");
-		System.out.print("상대팀 선수 : " + enemyPlayerName);
-		System.out.print(" / 스탯 : " + enemyPlayerStat);
+		System.out.print(getTeamName(getUserId(enemyPlayer))+"팀 선수 : " + enemyPlayerName);
+		System.out.print("(" + enemyPlayerStat + ")");
 		System.out.println();
 
-		// enemyPlayer의 stat갖고오기
 		int match = userPlayerStat - enemyPlayerStat;
 		if (match <= 10) {
 			int lotto = ran.nextInt(9) + 1;
@@ -357,10 +392,10 @@ public class PlayerDAO {
 
 		} else if (match <= 50) {
 			int lotto = ran.nextInt(9) + 1;
-			if (lotto == 1) {
+			if (lotto <= 2) {
 				System.out.println("!!!!!홈런!!!!! ");
 				return homerun();
-			} else if (lotto <= 3) {
+			} else if (lotto <= 4) {
 				return strike();
 			} else {
 				return hit();
@@ -417,8 +452,6 @@ public class PlayerDAO {
 
 	}
 
-	// game method
-	// 일단은 String id
 	public void game(String newId, String enemyId) throws ClassNotFoundException {
 // thorws부분 수정하기
 		getConn();
@@ -436,65 +469,80 @@ public class PlayerDAO {
 		int userScore = getScore(id); // database에 저장된 user의 점수
 		int userGameScore = 0;// 게임에서 얻는 점수
 
-		// 게임 종료 될 때 sql 활용해서 score update
 
-		// System.out.println("현재 사용자 스코어 받아오기 >> " + getScore(id));
 
 		playerPick(id);
-		// System.out.println("사용자 랜덤 선수 받아오기 >> " + playerPick(id));
-		// System.out.println("사용자 랜덤 선수 이름 >> " + getPlayerName(playerPick(id)));
 		playerPick(enemy);
-		// System.out.println("상대방 랜덤 선수 받아오기 >> " + playerPick(enemy));
-		// System.out.println("상대방 랜덤 선수 이름 >> " + getPlayerName(playerPick(enemy)));
 
-		// ====== 게임 진행 ======
+		while (true) {
+			System.out.print("[1] 플레이! [2] 기권할래요 ㅜ");
+			int goOrStop = sc.nextInt();
+			// ====== 게임 진행 ======
+			if (goOrStop == 1) {
 
-		int gameCnt = 1;
-		int choice = 0;
-		System.out.println("게임 시작 ! ");
+				int gameCnt = 0;
+				int choice = 0;
+				System.out.println("게임 시작 ! ");
 
-		while (gameCnt < 10) {
+				while (true) {
+					gameCnt++;
+					System.out.println("===" + gameCnt + "이닝 시작 === ");
+					
+					int result = inning(playerPick(id), playerPick(enemy));
+					userGameScore += result;
+					if (result == 0) {
+						strike++;
+						if (strike == 3) {// strike ==3으로 고치기
+							System.out.println("---- ㅠ 삼 진 아 웃 ㅠ ----");
+							System.out.println("총 획득 점수 : "+userGameScore);
+							break;
+						}
+					}
+					
 
-			System.out.println("===" + gameCnt + "이닝 시작 === ");
-
-			int result = inning(playerPick(id), playerPick(enemy));
-			if (result == 0) {
-				strike++;
-				if (strike == 3) {
-					System.out.println("---- ㅠ 삼 진 아 웃 ㅠ ----");
-					break;
+					// 게임 진행 계속 할건지 물어보기
+					if (gameCnt == 9) {
+						System.out.println("총 획득 점수 : "+userGameScore);
+						break;
+					} else {
+						System.out.print("[1] 다음 이닝 [2] 경기포기 >> ");
+						choice = sc.nextInt();
+					}
+					if (choice == 2) {
+						System.out.println("획득한 점수가 모두 사라졌습니다!!");
+						userGameScore = 0;
+						break;
+					}
 				}
-			}
-			userGameScore += result;
 
-			// 게임 진행 계속 할건지 물어보기
-			System.out.print("[1] 다음 이닝 [2] 경기포기 >> ");
-			choice = sc.nextInt();
-			if (choice == 2) {
+				// scoreUpdate method
+
+				System.out.println("게임이 종료됐습니다.");
+
+				if (strike == 3) {
+					System.out.println("경기 결과 : 패배 ");
+
+				} else if (gameCnt == 9) {
+					if (choice != 2) {
+						System.out.println("경기 결과 : 승리");
+						System.out.println("축하드립니다!! 승리에 대한 보상으로 선수 1명 추가등록하세요!");
+						playerInput(id);
+						showPlayerList(id);
+					}
+				}
+
+				// score update했으니까 변화해야함
+				userScore += userGameScore;
+				updateScore(id, userScore);
+				System.out.println("현재 당신의 총 점수는 >> " + getScore(id));
 				break;
-			}
-
-			gameCnt++;
-		}
-
-		// scoreUpdate method
-
-		System.out.println("게임이 종료됐습니다.");
-
-		if (strike == 3) {
-			System.out.println("경기 결과 : 패배 ");
-
-		} else if (gameCnt == 10) {
-			if (choice != 2) {
-				System.out.println("경기 결과 : 승리");
+			} else if (goOrStop == 2) {
+				System.out.println("겁쟁이...!!");
+				break;
+			} else {
+				System.out.println("[1]과 [2]중에서 고르세요!");
 			}
 		}
-
-		// score update했으니까 변화해야함
-		userScore += userGameScore;
-		updateScore(id, userScore);
-		System.out.println("현재 당신의 총 점수는 >> " + getScore(id));
-
 		// gameCnt
 
 //		ArrayList<Integer>userPlayerList = new ArrayList<Integer>();

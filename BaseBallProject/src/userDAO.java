@@ -80,8 +80,8 @@ public class userDAO {
 				rs = psmt.executeQuery();
 				
 				while(rs.next()) {
-					if(rs.getString("user_id").equals(id));
-					return true; // ---> 아이디가 중복일때 
+					if(rs.getString("user_id").equals(id)) {
+					return true; }// ---> 아이디가 중복일때 
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -136,19 +136,6 @@ public class userDAO {
 	public ArrayList<userVO> ranking() {
 
 		getConn();
-		
-		// 사용자 랭킹확인????????????????????????????????
-		String sql2 = "select * from users where user_id = ?";
-		try {
-			psmt = conn.prepareStatement(sql2);
-			rs = psmt.executeQuery();
-			String id = rs.getString(1);
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		System.out.println(sql2);
-/////////////////////////////////////////////////////		
 		
 		ArrayList<userVO> ranList = new ArrayList<userVO>();
 		String sql = "select user_id, user_team, user_score from users order by user_score desc";

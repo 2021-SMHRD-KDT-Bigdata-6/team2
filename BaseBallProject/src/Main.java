@@ -1,5 +1,6 @@
-import java.util.ArrayList;
 import java.util.Scanner;
+import javazoom.jl.player.MP3Player;
+
 
 public class Main {
 
@@ -8,9 +9,19 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		userDAO dao = new userDAO();
 		PlayerDAO daoP = new PlayerDAO();
+		
+		MP3Player mp3 = new MP3Player();
+
+		MusicPlayer player = new MusicPlayer();
+		
+		Music music;
 
 		while (true) {
+<<<<<<< HEAD
 
+=======
+			player.play(0);
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 			System.out.print("[1]로그인  [2]회원가입  [3]종료 >> ");
 			int select = sc.nextInt();
 
@@ -25,6 +36,7 @@ public class Main {
 					System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면 >> ");
 					int select2 = sc.nextInt();
 					if (select2 == 1) { // 경기시작
+						player.stop();
 						daoP.game(id, daoP.enemyPick(id));
 
 					} else if (select2 == 2) {
@@ -61,9 +73,10 @@ public class Main {
 				// show_playerList
 
 			} else if (select == 3) {
-				System.out.print("진짜 종료하시겠습니까?ㅜ >> (y/n)");
+				System.out.print("진짜 종료하시겠습니까?ㅜ >> (y/n) >> ");
 				String answer = sc.next();
 				if (answer.equals("y")) {
+					player.stop();
 					System.out.println("게임을 종료합니다!");
 					break;
 				}

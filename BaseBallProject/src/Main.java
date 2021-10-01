@@ -17,11 +17,8 @@ public class Main {
 		Music music;
 
 		while (true) {
-<<<<<<< HEAD
 
-=======
 			player.play(0);
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 			System.out.print("[1]로그인  [2]회원가입  [3]종료 >> ");
 			int select = sc.nextInt();
 

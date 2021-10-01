@@ -389,11 +389,12 @@ public class PlayerDAO {
 	}
 	
 	public void hitAscii() {
-		System.out.println("        _         ____                                               __\r\n"
-				+ "                / \\     .'    '.        ____......------\"\"\"\"\"\"\"\"`````  `  \\  \r\n"
-				+ "               |   `::-/'-....-'\\--\"\"```                                          |\r\n"
-				+ "               |    :: |          |                                                  |\r\n"
-				+ "               |   ,:'-\\.-''''-./--..___                                            /\r\n"
+		System.out.println(
+				"                   _         ____                                                   __         \r\n"
+				+ "                / \\     .'    '.        ____......------\"\"\"\"\"\"\"\"`````  `     \\       \r\n"
+				+ "               |   `::-/'-....-'\\--\"\"```                                            |         \r\n"
+				+ "               |    :: |         ||                                                    |        \r\n"
+				+ "               |   ,:'-\\.-''''-.//--..___                                             /          \r\n"
 				+ "                \\_/     '.____.'        ````````````\"\"\"\"\"\"\"-----------------'");
 	}
 
@@ -427,104 +428,87 @@ public class PlayerDAO {
 		
 	}
 	public int strike() {
-<<<<<<< HEAD
 		System.out.println();
 		System.out.println("       â€»â€»â€»â€»â€» íˆ¬ìˆ˜ ê³µì„ ë°”ë¼ë³´ê¸°ë§Œ í•©ë‹ˆë‹¤! â€»â€»â€»â€»â€»");
 		System.out.println("               >> STRIKE ");
 		baseballAscii();
-=======
+
 		player.stop();
 		player.play(3);
-		System.out.println("³¯Ä«·Î¿î º¯È­±¸¿¡ ¼­ÀÖ±â¸¸ ÇÏ¼Ì³×¿ä..?");
+		System.out.println("ï¿½ï¿½Ä«ï¿½Î¿ï¿½ ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö±â¸¸ ï¿½Ï¼Ì³×¿ï¿½..?");
 		System.out.println(">>> STRIKE");
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 		return 0;
 	}
 
 	public int lottoStrike() {
-<<<<<<< HEAD
 		System.out.println();
 		System.out.println("         â€»â€»â€»â€»â€» ìŠ¤íŠ¸ë¼ì´í¬ë¼ë‹ˆ..? â€»â€»â€»â€»â€»");
 		System.out.println("               ï¼¼ï¼¼ STRIKE ï¼ï¼");
 		baseballAscii();
-=======
 		player.stop();
 		player.play(3);
-		System.out.println(">>> ½ºÆ®¶óÀÌÅ©¶ó´Ï..? <<<");
-		System.out.println("¡¬¡¬\\\\ STRIKE ////£¯£¯");
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
+		System.out.println(">>> ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ï¿½..? <<<");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½\\\\ STRIKE ////ï¿½ï¿½ï¿½ï¿½");
 		return 0;
 	}
 
 	public int lottoHit() {
-<<<<<<< HEAD
 		System.out.println();
 		System.out.println("            â€»â€»â€»â€»â€»ì„¸ì´í”„í‹° ë²ˆíŠ¸ ì„±ê³µ â€»â€»â€»â€»â€»");
 		lottoHitAscii();
 		hitAscii();
 		System.out.println();
-=======
 		player.stop();
 		player.play(1);
-		System.out.println(">>> ¼¼ÀÌÇÁÆ¼ ¹øÆ® ¼º°ø <<<");
-		System.out.println("¦®¦¬¦³¦¬¦³¦¬¦¯");
-		System.out.println("¦­H¦­I¦­T¦­");
-		System.out.println("¦±¦¬¦µ¦¬¦µ¦¬¦°");
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
+		System.out.println(">>> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ <<<");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		System.out.println("ï¿½ï¿½Hï¿½ï¿½Iï¿½ï¿½Tï¿½ï¿½");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 
 		return 1;
 	}
 
 	public int hit() {
-<<<<<<< HEAD
 		System.out.println();
 		System.out.println(" â€»â€»â€»â€»â€» ìš°ë¦¬íŒ€ì˜ ê°„íŒ íƒ€ì! â€»â€»â€»â€»â€»");
 		hitAscii();
 		System.out.println(" >>> HIT : 1ì  íšë“");
 		System.out.println();
-=======
 		player.stop();
 		player.play(1);
-		System.out.println(" ¿ì¸®ÆÀÀÇ °£ÆÇ Å¸ÀÚ!");
-		System.out.println(" >>> HIT : 1Á¡ È¹µæ");
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
+		System.out.println(" ï¿½ì¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½!");
+		System.out.println(" >>> HIT : 1ï¿½ï¿½ È¹ï¿½ï¿½");
 		return 1;
 	}
 
 	public int homerun() {
-<<<<<<< HEAD
 		System.out.println();
 		System.out.println("         â€»â€»â€»â€»â€» ìš°ë¦¬íŒ€ ê±°í¬ â€»â€»â€»â€»â€»");
 		homerunAscii();
 		System.out.println(" >>> HOMERUN : 2ì  íšë“");
 		System.out.println();
-=======
 		player.stop();
 		player.play(2);
-		System.out.println(" ¿ª½Ã °ÅÆ÷ !!!");
-		System.out.println(" >>> HOMERUN : 2Á¡ È¹µæ");
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
+		System.out.println(" ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ !!!");
+		System.out.println(" >>> HOMERUN : 2ï¿½ï¿½ È¹ï¿½ï¿½");
 		return 2;
 	}
 
 	public int lottoHomerun() {
-<<<<<<< HEAD
 		System.out.println();
 		System.out.println("      â€»â€»â€»â€»â€» ë‚˜ë„ í™ˆëŸ°ì¹  ìˆ˜ ìˆì–´~! â€»â€»â€»â€»â€»");
 		System.out.println();
 		lottoHomeRun();
 		System.out.println();
 
-=======
 		player.stop();
 		player.play(2);
-		System.out.println(">>> ³ªµµ È¨·±Ä¥ ¼ö ÀÖ¾î~! <<<");
-		System.out.println("£ßìÑìÑìÑìÑìÑìÑ£ß");
-		System.out.println("£¾  È¨  ·±   £¼");
-		System.out.println("£¾  È¨  ·±   £¼");
-		System.out.println("£¾  È¨  ·±   £¼");
-		System.out.println("£şY^Y^Y^Y^Y£ş");
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
+		System.out.println(">>> ï¿½ï¿½ï¿½ï¿½ È¨ï¿½ï¿½Ä¥ ï¿½ï¿½ ï¿½Ö¾ï¿½~! <<<");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ£ï¿½");
+		System.out.println("ï¿½ï¿½  È¨  ï¿½ï¿½   ï¿½ï¿½");
+		System.out.println("ï¿½ï¿½  È¨  ï¿½ï¿½   ï¿½ï¿½");
+		System.out.println("ï¿½ï¿½  È¨  ï¿½ï¿½   ï¿½ï¿½");
+		System.out.println("ï¿½ï¿½Y^Y^Y^Y^Yï¿½ï¿½");
 		return 2;
 	}
 
@@ -647,12 +631,9 @@ public class PlayerDAO {
 		playerPick(enemy);
 
 		while (true) {
-<<<<<<< HEAD
 			System.out.print("[1] í”Œë ˆì´! [2] ê¸°ê¶Œí• ë˜ìš” ã…œ >> ");
-=======
 			
-			System.out.print("[1] ÇÃ·¹ÀÌ! [2] ±â±ÇÇÒ·¡¿ä ¤Ì >> ");
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
+			System.out.print("[1] ï¿½Ã·ï¿½ï¿½ï¿½! [2] ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ >> ");
 			int goOrStop = sc.nextInt();
 			// ====== ê²Œì„ ì§„í–‰ ======
 			if (goOrStop == 1) {
@@ -677,7 +658,6 @@ public class PlayerDAO {
 						// STRIKEì¼ ê²½ìš°
 						strike++;
 						if (strike == 3) {
-<<<<<<< HEAD
 							System.out.println();
 							System.out.println("           â€»â€»â€»â€»â€» ë£¨í‚¹ìŠ¤íŠ¸ë¼ì´í¬ ì•„ì›ƒ â€»â€»â€»â€»â€»");
 							System.out.println(
@@ -689,11 +669,9 @@ public class PlayerDAO {
 							
 							System.out.println();
 							System.out.println("ì´ íšë“ ì ìˆ˜ : " + userGameScore);
-=======
 							player.stop();
-							System.out.println("---- ¤Ğ »ï Áø ¾Æ ¿ô ¤Ğ ----");
-							System.out.println("ÃÑ È¹µæ Á¡¼ö : " + userGameScore);
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
+							System.out.println("---- ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ----");
+							System.out.println("ï¿½ï¿½ È¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : " + userGameScore);
 							break;
 						}else if(strike == 1) {
 							System.out.println("S : â—â—‹â—‹");
@@ -705,24 +683,18 @@ public class PlayerDAO {
 					}
 
 					if (gameCnt == 9) {
-<<<<<<< HEAD
 						System.out.println("ì´ íšë“ ì ìˆ˜ : " + userGameScore);
-=======
 						player.stop();
-						System.out.println("ÃÑ È¹µæ Á¡¼ö : " + userGameScore);
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
+						System.out.println("ï¿½ï¿½ È¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : " + userGameScore);
 						break;
 					} else {
 						System.out.print("[1] ë‹¤ìŒ ì´ë‹ [2] ê²½ê¸°í¬ê¸° >> ");
 						choice = sc.nextInt();
 					}
 					if (choice == 2) {
-<<<<<<< HEAD
 						System.out.println("íšë“í•œ ì ìˆ˜ê°€ ëª¨ë‘ ì‚¬ë¼ì¡ŒìŠµë‹ˆë‹¤!!");
-=======
 						player.stop();
-						System.out.println("È¹µæÇÑ Á¡¼ö°¡ ¸ğµÎ »ç¶óÁ³½À´Ï´Ù!!");
->>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
+						System.out.println("È¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!!");
 						userGameScore = 0;
 						break;
 					}

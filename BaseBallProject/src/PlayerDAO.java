@@ -343,14 +343,34 @@ public class PlayerDAO {
 		System.out.println("STRIKE");
 		return 0;
 	}
+	public int lottoStrike() {
+		System.out.println("°¨°¨\\\\ STRIKE ////£Ø£Ø");
+		return 0;
+	}
 
+	public int lottoHit() {
+		System.out.println("¶Æ¶¨¶≥¶¨¶≥¶¨¶Ø");
+		System.out.println("¶≠H¶≠I¶≠T¶≠");
+		System.out.println("¶±¶¨¶µ¶¨¶µ¶¨¶∞");
+		
+		return 1;
+	}
 	public int hit() {
-		System.out.println("HIT!! 1¡° »πµÊ");
+		System.out.println("HIT : 1¡° »πµÊ");
 		return 1;
 	}
 
 	public int homerun() {
-		System.out.println("HOMERUN!! 2¡° »πµÊ");
+		System.out.println("HOMERUN : 2¡° »πµÊ");
+		return 2;
+	}
+	
+	public int lottoHomerun() {
+		System.out.println("£ﬂÏ—Ï—Ï—Ï—Ï—Ï—£ﬂ");
+		System.out.println("£æ  »®  ∑±   £º");
+		System.out.println("£æ  »®  ∑±   £º");
+		System.out.println("£æ  »®  ∑±   £º");
+		System.out.println("£˛Y^Y^Y^Y^Y£˛");
 		return 2;
 	}
 	
@@ -379,13 +399,20 @@ public class PlayerDAO {
 		System.out.println();
 
 		int match = userPlayerStat - enemyPlayerStat;
-		if (match <= 10) {
+		
+		if(match == 0) {
+			System.out.println("£ﬂÏ—Ï—Ï—Ï—Ï—Ï—£ﬂ");
+			System.out.println("£æ∫•ƒ° ≈¨∏ÆæÓ∏µ£º");
+			System.out.println("£æ(∞∞¿∫¥…∑¬ƒ°)£º");
+			System.out.println("£˛Y^Y^Y^Y^Y£˛");
+			return -1;
+		}
+		else if (match <= 10) {
 			int lotto = ran.nextInt(9) + 1;
 			if (lotto == 1) {
-				System.out.println("!!!!!»®∑±!!!!! ");
-				return homerun();
+				return lottoHomerun();
 			} else if (lotto <= 3) {
-				return hit();
+				return lottoHit();
 			} else {
 				return strike();
 			}
@@ -393,20 +420,18 @@ public class PlayerDAO {
 		} else if (match <= 50) {
 			int lotto = ran.nextInt(9) + 1;
 			if (lotto <= 2) {
-				System.out.println("!!!!!»®∑±!!!!! ");
-				return homerun();
+				return lottoHomerun();
 			} else if (lotto <= 4) {
-				return strike();
+				return lottoStrike();
 			} else {
 				return hit();
 			}
 		} else {
 			int lotto = ran.nextInt(9) + 1;
 			if (lotto == 1) {
-				System.out.println("Ω∫∆Æ∂Û¿Ã≈©..? ø¨∫¿¿ª ª˝∞¢«œººø‰");
-				return strike();
+				return lottoStrike();
 			} else if (lotto <= 3) {
-				return hit();
+				return lottoHit();
 			} else {
 				return homerun();
 			}
@@ -466,33 +491,43 @@ public class PlayerDAO {
 		int hit = 0;
 		int homerun = 0;
 
-		int userScore = getScore(id); // databaseø° ¿˙¿Âµ» user¿« ¡°ºˆ
-		int userGameScore = 0;// ∞‘¿”ø°º≠ æÚ¥¬ ¡°ºˆ
+		int userScore = getScore(id);
+		int userGameScore = 0;
 
 
-
+		
 		playerPick(id);
 		playerPick(enemy);
 
 		while (true) {
-			System.out.print("[1] «√∑π¿Ã! [2] ±‚±««“∑°ø‰ §Ã");
+			System.out.print("[1] «√∑π¿Ã! [2] ±‚±««“∑°ø‰ §Ã >> ");
 			int goOrStop = sc.nextInt();
 			// ====== ∞‘¿” ¡¯«‡ ======
 			if (goOrStop == 1) {
 
 				int gameCnt = 0;
 				int choice = 0;
-				System.out.println("∞‘¿” Ω√¿€ ! ");
+
+				
+				System.out.println("      /            /");
+				System.out.println("     / GAME START / ");			     
+				System.out.println("    /            /");
 
 				while (true) {
 					gameCnt++;
-					System.out.println("===" + gameCnt + "¿Ã¥◊ Ω√¿€ === ");
+					System.out.println("°Ì ¶°¶°¶°¶° °Ï "+gameCnt+"¿Ã¥◊ °Ì ¶°¶°¶°¶° °Ï");
+
 					
 					int result = inning(playerPick(id), playerPick(enemy));
 					userGameScore += result;
-					if (result == 0) {
+					
+					if(result == -1) {
+						gameCnt--;
+						break;
+					}else if (result == 0) {
+						// STRIKE¿œ ∞ÊøÏ
 						strike++;
-						if (strike == 3) {// strike ==3¿∏∑Œ ∞Ìƒ°±‚
+						if (strike == 3) {
 							System.out.println("---- §– ªÔ ¡¯ æ∆ øÙ §– ----");
 							System.out.println("√— »πµÊ ¡°ºˆ : "+userGameScore);
 							break;
@@ -500,7 +535,6 @@ public class PlayerDAO {
 					}
 					
 
-					// ∞‘¿” ¡¯«‡ ∞Ëº” «“∞«¡ˆ π∞æÓ∫∏±‚
 					if (gameCnt == 9) {
 						System.out.println("√— »πµÊ ¡°ºˆ : "+userGameScore);
 						break;
@@ -531,7 +565,6 @@ public class PlayerDAO {
 					}
 				}
 
-				// score update«ﬂ¿∏¥œ±Ó ∫Ø»≠«ÿæﬂ«‘
 				userScore += userGameScore;
 				updateScore(id, userScore);
 				System.out.println("«ˆ¿Á ¥ÁΩ≈¿« √— ¡°ºˆ¥¬ >> " + getScore(id));

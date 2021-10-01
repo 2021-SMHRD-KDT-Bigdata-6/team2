@@ -340,15 +340,17 @@ public class PlayerDAO {
 	}
 	
 	public int strike() {
-		System.out.println("STRIKE");
+		System.out.println(">>> STRIKE");
 		return 0;
 	}
 	public int lottoStrike() {
+		System.out.println(">>> 스트라이크라니..? <<<");
 		System.out.println("＼＼\\\\ STRIKE ////／／");
 		return 0;
 	}
 
 	public int lottoHit() {
+		System.out.println(">>> 확률을 이겨낸 당신! <<<");
 		System.out.println("┏━┳━┳━┓");
 		System.out.println("┃H┃I┃T┃");
 		System.out.println("┗━┻━┻━┛");
@@ -356,16 +358,17 @@ public class PlayerDAO {
 		return 1;
 	}
 	public int hit() {
-		System.out.println("HIT : 1점 획득");
+		System.out.println(" >>> HIT : 1점 획득");
 		return 1;
 	}
 
 	public int homerun() {
-		System.out.println("HOMERUN : 2점 획득");
+		System.out.println(" >>> HOMERUN : 2점 획득");
 		return 2;
 	}
 	
 	public int lottoHomerun() {
+		System.out.println(">>> 확률을 이겨낸 당신!<<<");
 		System.out.println("＿人人人人人人＿");
 		System.out.println("＞  홈  런   ＜");
 		System.out.println("＞  홈  런   ＜");
@@ -554,11 +557,13 @@ public class PlayerDAO {
 				System.out.println("게임이 종료됐습니다.");
 
 				if (strike == 3) {
-					System.out.println("경기 결과 : 패배 ");
+					
+					
+					System.out.println("≫ ──── 게임결과 : 패배 ──── ≪");
 
 				} else if (gameCnt == 9) {
 					if (choice != 2) {
-						System.out.println("경기 결과 : 승리");
+						System.out.println("≫ ──── 게임결과 : 승리 ──── ≪");
 						System.out.println("축하드립니다!! 승리에 대한 보상으로 선수 1명 추가등록하세요!");
 						playerInput(id);
 						showPlayerList(id);

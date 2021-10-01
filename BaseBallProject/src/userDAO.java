@@ -47,9 +47,10 @@ public class userDAO {
 	public String login() {
 		userVO info = null;
 		String id = null;
-		getConn();
+		
 		int login = 0;
 		while (login == 0) {
+			getConn();
 			System.out.println("--로그인--");
 			System.out.print("ID입력 : ");
 			id = sc.next();
@@ -64,18 +65,28 @@ public class userDAO {
 				psmt.setString(1, vo.getId());
 				psmt.setString(2, vo.getPw());
 				rs = psmt.executeQuery();
+				if (rs.next()) {
+					id = rs.getString("user_id");
+					pw = rs.getString("user_pw");
+					String team = rs.getString("user_team");
+					int score = rs.getInt("user_score");
 
-				rs.next();
-				id = rs.getString(1);
+					info = new userVO(id, pw, team, score);
+				}
 
-				if (id != null) {
+				if (info != null) {
 					System.out.println("로그인 성공!");
 					System.out.println(id + "님 환영합니다!");
 					login++;
 				} else {
-					System.out.println("로그인 실패..");
+					// 아이디가 틀렸을떄, 비밀번호가 틀렸을때 판별하기
+					if (check(vo.getId()) == true) {
+						System.out.println("비밀번호가 틀렸습니다. 다시 입력해주세요.");
+					} else if(check(vo.getId()) != true) {
+						System.out.println("아이디와 비밀번호를 다시 입력해주세요.");
+					}
+					
 				}
-
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
@@ -114,6 +125,7 @@ public class userDAO {
 		int cnt = 0;
 		getConn();
 		while (cnt == 0) {
+			System.out.println("--회원가입--");
 			System.out.print("아이디를 입력하세요 >> ");
 			id = sc.next();
 			System.out.print("비밀번호를 입력하세요 >> ");
@@ -121,7 +133,7 @@ public class userDAO {
 			System.out.print("구단명을 입력하세요 >> ");
 			String team = sc.next();
 			vo = new userVO(id, pw, team);
-			
+
 			if (check(vo.getId()) == true) {
 				System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요.");
 			} else {
@@ -135,7 +147,6 @@ public class userDAO {
 					psmt.setInt(4, 0);
 					cnt = psmt.executeUpdate();
 
-					
 					System.out.println("회원가입 성공!");
 					System.out.println("====선수영입을 시작합니다.====");
 					System.out.println("최초에 5명의 선수를 영입할 수 있습니다.");
@@ -185,26 +196,27 @@ public class userDAO {
 
 		for (int i = 0; i < ranList.size(); i++) {
 			if (id.equals(ranList.get(i).getId())) {
-				System.out.println("========================================================");
+				System.out.println("============================================================");
 				System.out.println("                    " + id + " 님의 랭킹");
-				System.out.println("--------------------------------------------------------");
+				System.out.println("------------------------------------------------------------");
 				System.out.printf("%6s", i + 1 + "위   ");
 				System.out.printf("%-10s \t%-25s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(),
 						ranList.get(i).getScore());
 				System.out.println();
-				System.out.println("========================================================");
+				System.out.println("============================================================");
 
 			}
 		}
 		System.out.printf("%5s %-10s \t%-25s \t%-10s", "순위  ", "아이디", "구단명", "점수");
 		System.out.println();
-		System.out.println("--------------------------------------------------------");
+		System.out.println("============================================================");
 		for (int i = 0; i < ranList.size(); i++) {
 
 			System.out.printf("%6s", i + 1 + "위   ");
 			System.out.printf("%-10s \t%-25s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(),
 					ranList.get(i).getScore());
 			System.out.println();
+			System.out.println("------------------------------------------------------------");
 		}
 	}
 

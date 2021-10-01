@@ -66,7 +66,7 @@ public class PlayerDAO {
 
 		try {
 
-			// ¾ÆÀÌµğ °¡Á®¿À±â
+			// ì•„ì´ë”” ê°€ì ¸ì˜¤ê¸°
 
 			String id = newid;
 			int cnt = 0;
@@ -82,10 +82,10 @@ public class PlayerDAO {
 
 			int num = cnt + 1;
 
-			System.out.print("¼±¼öÀÌ¸§À» Á¤ÇØÁÖ¼¼¿ä(ÃÖ´ë 3ÀÚ) >> ");
+			System.out.print("ì„ ìˆ˜ì´ë¦„ì„ ì •í•´ì£¼ì„¸ìš”(ìµœëŒ€ 3ì) >> ");
 			String name = sc.next();
 			int stat = ran.nextInt(100) + 1;
-			System.out.println(name + "ÀÇ ´É·ÂÄ¡ : " + stat);
+			System.out.println(name + "ì˜ ëŠ¥ë ¥ì¹˜ : " + stat);
 
 			PlayerVO player = new PlayerVO(num, name, stat);
 
@@ -135,10 +135,10 @@ public class PlayerDAO {
 
 			String teamName = getTeamName(id);
 
-			// System.out.println("ÃàÇÏµå¸³´Ï´Ù!! " + teamName + "ÀÌ(°¡) °á¼ºµÆ½À´Ï´Ù!!");
+			// System.out.println("ì¶•í•˜ë“œë¦½ë‹ˆë‹¤!! " + teamName + "ì´(ê°€) ê²°ì„±ëìŠµë‹ˆë‹¤!!");
 			System.out.println();
-			System.out.println("===== " + teamName + " ¼±¼ö List =====");
-			// ÆÀ¸íÀÌ ³ª¿À°Ô
+			System.out.println("===== " + teamName + " ì„ ìˆ˜ List =====");
+			// íŒ€ëª…ì´ ë‚˜ì˜¤ê²Œ
 
 			int i = 0;
 			String sql = "select * from players where user_id = ? order by players_no";
@@ -166,7 +166,7 @@ public class PlayerDAO {
 
 	}
 
-	// void ¹Ù²ã¼­ enemyPick -> id returnÇÏµµ·Ï
+	// void ë°”ê¿”ì„œ enemyPick -> id returní•˜ë„ë¡
 	public String enemyPick(String id) {
 		getConn();
 		ArrayList<String> userList = new ArrayList<String>();
@@ -182,28 +182,28 @@ public class PlayerDAO {
 			rs = psmt.executeQuery();
 
 			while (rs.next()) {
-				// rs°¡ Á¸ÀçÇÑ´Ù¸é
+				// rsê°€ ì¡´ì¬í•œë‹¤ë©´
 				String otherUserId = rs.getString("user_id");
-				// userid¸¦ rsÀÇ user_id column¿¡¼­ ¹Ş¾Æ¿Í¼­
+				// useridë¥¼ rsì˜ user_id columnì—ì„œ ë°›ì•„ì™€ì„œ
 				userList.add(otherUserId);
-				// userList¿¡ userid ´ã¾ÆÁÖ±â
+				// userListì— userid ë‹´ì•„ì£¼ê¸°
 			}
 
 			String enemyId = userList.get(ran.nextInt(userList.size()));
 			result = enemyId;
-			// ¿©±â¼­ ¿À·ù ¹ß»ı -> ÇØ°á
-			// id ÇØ°á, userList Ã¤¿öÁÜ
-			// enemyId ´Â, userList¿¡¼­ userList±æÀÌ¸¸Å­ ·£´ı¼ıÀÚ Áß ÇÏ³ª °É¸°°Å
+			// ì—¬ê¸°ì„œ ì˜¤ë¥˜ ë°œìƒ -> í•´ê²°
+			// id í•´ê²°, userList ì±„ì›Œì¤Œ
+			// enemyId ëŠ”, userListì—ì„œ userListê¸¸ì´ë§Œí¼ ëœë¤ìˆ«ì ì¤‘ í•˜ë‚˜ ê±¸ë¦°ê±°
 
 			ArrayList<PlayerVO> myList = new ArrayList<PlayerVO>();
 			ArrayList<PlayerVO> enemyList = new ArrayList<PlayerVO>();
-			// »ó´ë¹ælist
+			// ìƒëŒ€ë°©list
 
 			String userTeamName = getTeamName(userId);
 			String enemyTeamName = getTeamName(enemyId);
 
 			System.out.println();
-			System.out.println("***** ¿À´ÃÀÇ ¸ÅÄ¡ *****");
+			System.out.println("***** ì˜¤ëŠ˜ì˜ ë§¤ì¹˜ *****");
 			System.out.println(userTeamName + "  VS  " + enemyTeamName);
 			System.out.println();
 
@@ -214,7 +214,7 @@ public class PlayerDAO {
 
 			int k = 0;
 
-			System.out.println("===== " + userTeamName + " ¼±¼ö List =====");
+			System.out.println("===== " + userTeamName + " ì„ ìˆ˜ List =====");
 			while (rs.next()) {
 				String name = rs.getString("PLAYERS_NAME");
 				int stat = rs.getInt("PLAYERS_STAT");
@@ -231,8 +231,8 @@ public class PlayerDAO {
 			rs = psmt.executeQuery();
 			int j = 0;
 
-			// println ===»ó´ë¹æ ¼±¼ö ¸®½ºÆ®===
-			System.out.println("===== " + enemyTeamName + " ¼±¼ö List =====");
+			// println ===ìƒëŒ€ë°© ì„ ìˆ˜ ë¦¬ìŠ¤íŠ¸===
+			System.out.println("===== " + enemyTeamName + " ì„ ìˆ˜ List =====");
 			while (rs.next()) {
 				String name = rs.getString("PLAYERS_NAME");
 				int stat = rs.getInt("PLAYERS_STAT");
@@ -253,12 +253,12 @@ public class PlayerDAO {
 
 	}
 
-	// ÀÌ°É ¾Æ·¡¿¡ ÀÖ´Â game method¿¡¼­ È°¿ëÇÏ°í ½ÍÀºµ¥
-	// ±×·³ °´Ã¼°¡ ÇÊ¿äÇÏ´Ï±î...?
+	// ì´ê±¸ ì•„ë˜ì— ìˆëŠ” game methodì—ì„œ í™œìš©í•˜ê³  ì‹¶ì€ë°
+	// ê·¸ëŸ¼ ê°ì²´ê°€ í•„ìš”í•˜ë‹ˆê¹Œ...?
 
 	public int playerPick(String newid) {
 		getConn();
-		// database¿¬°á
+		// databaseì—°ê²°
 		int playerPick = 0;
 
 		ArrayList<Integer> playerList = new ArrayList<Integer>();
@@ -285,10 +285,10 @@ public class PlayerDAO {
 		}
 
 		return playerPick;
-		// id´Ù¸£°Ô ÀÔ·ÂÇÏ¸é ±×¿¡ ¸Â´Â playerPick
+		// idë‹¤ë¥´ê²Œ ì…ë ¥í•˜ë©´ ê·¸ì— ë§ëŠ” playerPick
 	}
 
-	// playerNo ÀÔ·Â¹ŞÀ¸¸é stat ¹İÈ¯ÇØÁÖ´Â ¸Ş¼Òµå
+	// playerNo ì…ë ¥ë°›ìœ¼ë©´ stat ë°˜í™˜í•´ì£¼ëŠ” ë©”ì†Œë“œ
 	public int playerStat(int playerNo) {
 		//
 		int stat = 0;
@@ -366,51 +366,156 @@ public class PlayerDAO {
 		}
 		return userId;
 	}
+	
+	public void baseballAscii() {
+		System.out.println(
+				"                                              _-- _      ***  \r\n"
+				+"                                           __(_  )     **\r\n"
+				+"                                             <  (D)  .**\r\n"
+				+"                                            .~ \\ /~```\r\n"
+				+"                                          .~    V    *_ \r\n "
+				+"                                         (   (___. {:)-./\r\n"
+				+"                                           ~._____.(:}\r\n"
+				+"                     _____                  |       | \r\n"
+				+"                   .'     '.               /        \\ \r\n"
+				+"                  /  ball   |            /          \\ \r\n"
+				+"                 |          |            /   /  \\    \\ \r\n"
+				+"                  \\.-''''-./           /   /    \\   \\ \r\n"
+				+"                   '.____.'             \\__/      \\__/ \r\n"
+				+"                                         / /        | | \r\n"
+				+"                                        .^V^.      .^V^. \r\n"
+				+"                                        +-+        +-+ \r\n");
+		
+	}
+	
+	public void hitAscii() {
+		System.out.println("        _         ____                                               __\r\n"
+				+ "                / \\     .'    '.        ____......------\"\"\"\"\"\"\"\"`````  `  \\  \r\n"
+				+ "               |   `::-/'-....-'\\--\"\"```                                          |\r\n"
+				+ "               |    :: |          |                                                  |\r\n"
+				+ "               |   ,:'-\\.-''''-./--..___                                            /\r\n"
+				+ "                \\_/     '.____.'        ````````````\"\"\"\"\"\"\"-----------------'");
+	}
 
+	public void lottoHitAscii() {
+		System.out.println("            â”â”â”³â”â”³â”â”“     â”â”â”³â”â”³â”â”“     â”â”â”³â”â”³â”â”“");
+		System.out.println("            â”ƒHâ”ƒIâ”ƒTâ”ƒ     â”ƒHâ”ƒIâ”ƒTâ”ƒ     â”ƒHâ”ƒIâ”ƒTâ”ƒ");
+		System.out.println("            â”—â”â”»â”â”»â”â”›     â”—â”â”»â”â”»â”â”›     â”—â”â”»â”â”»â”â”›");
+
+	}
+	
+	public void homerunAscii() {
+				System.out.println("              ï¼¿äººäººäººäººäººäººäººï¼¿");
+				System.out.println("              ï¼   í™ˆ  ëŸ°  ï¼œ");
+				System.out.println("              ï¼   í™ˆ  ëŸ°  ï¼œ");
+				System.out.println("              ï¼   í™ˆ  ëŸ°  ï¼œ");
+				System.out.println("              ï¿£Y^Y^Y^Y^Y^ï¿£");
+
+	}
+	
+	
+	public void lottoHomeRun() {
+
+		System.out.println(
+				"##     ##  #######  ##     ## ######## ########  ##     ## ##    ## \r\n"
+				+ "##     ## ##     ## ###   ### ##       ##     ## ##     ## ###   ## \r\n"
+				+ "##     ## ##     ## #### #### ##       ##     ## ##     ## ####  ## \r\n"
+				+ "######### ##     ## ## ### ## ######   ########  ##     ## ## ## ## \r\n"
+				+ "##     ## ##     ## ##     ## ##       ##   ##   ##     ## ##  #### \r\n"
+				+ "##     ## ##     ## ##     ## ##       ##    ##  ##     ## ##   ### \r\n"
+				+ "##     ##  #######  ##     ## ######## ##     ##  #######  ##    ## ");
+		
+	}
 	public int strike() {
+<<<<<<< HEAD
+		System.out.println();
+		System.out.println("       â€»â€»â€»â€»â€» íˆ¬ìˆ˜ ê³µì„ ë°”ë¼ë³´ê¸°ë§Œ í•©ë‹ˆë‹¤! â€»â€»â€»â€»â€»");
+		System.out.println("               >> STRIKE ");
+		baseballAscii();
+=======
 		player.stop();
 		player.play(3);
 		System.out.println("³¯Ä«·Î¿î º¯È­±¸¿¡ ¼­ÀÖ±â¸¸ ÇÏ¼Ì³×¿ä..?");
 		System.out.println(">>> STRIKE");
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 		return 0;
 	}
 
 	public int lottoStrike() {
+<<<<<<< HEAD
+		System.out.println();
+		System.out.println("         â€»â€»â€»â€»â€» ìŠ¤íŠ¸ë¼ì´í¬ë¼ë‹ˆ..? â€»â€»â€»â€»â€»");
+		System.out.println("               ï¼¼ï¼¼ STRIKE ï¼ï¼");
+		baseballAscii();
+=======
 		player.stop();
 		player.play(3);
 		System.out.println(">>> ½ºÆ®¶óÀÌÅ©¶ó´Ï..? <<<");
 		System.out.println("¡¬¡¬\\\\ STRIKE ////£¯£¯");
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 		return 0;
 	}
 
 	public int lottoHit() {
+<<<<<<< HEAD
+		System.out.println();
+		System.out.println("            â€»â€»â€»â€»â€»ì„¸ì´í”„í‹° ë²ˆíŠ¸ ì„±ê³µ â€»â€»â€»â€»â€»");
+		lottoHitAscii();
+		hitAscii();
+		System.out.println();
+=======
 		player.stop();
 		player.play(1);
 		System.out.println(">>> ¼¼ÀÌÇÁÆ¼ ¹øÆ® ¼º°ø <<<");
 		System.out.println("¦®¦¬¦³¦¬¦³¦¬¦¯");
 		System.out.println("¦­H¦­I¦­T¦­");
 		System.out.println("¦±¦¬¦µ¦¬¦µ¦¬¦°");
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 
 		return 1;
 	}
 
 	public int hit() {
+<<<<<<< HEAD
+		System.out.println();
+		System.out.println(" â€»â€»â€»â€»â€» ìš°ë¦¬íŒ€ì˜ ê°„íŒ íƒ€ì! â€»â€»â€»â€»â€»");
+		hitAscii();
+		System.out.println(" >>> HIT : 1ì  íšë“");
+		System.out.println();
+=======
 		player.stop();
 		player.play(1);
 		System.out.println(" ¿ì¸®ÆÀÀÇ °£ÆÇ Å¸ÀÚ!");
 		System.out.println(" >>> HIT : 1Á¡ È¹µæ");
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 		return 1;
 	}
 
 	public int homerun() {
+<<<<<<< HEAD
+		System.out.println();
+		System.out.println("         â€»â€»â€»â€»â€» ìš°ë¦¬íŒ€ ê±°í¬ â€»â€»â€»â€»â€»");
+		homerunAscii();
+		System.out.println(" >>> HOMERUN : 2ì  íšë“");
+		System.out.println();
+=======
 		player.stop();
 		player.play(2);
 		System.out.println(" ¿ª½Ã °ÅÆ÷ !!!");
 		System.out.println(" >>> HOMERUN : 2Á¡ È¹µæ");
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 		return 2;
 	}
 
 	public int lottoHomerun() {
+<<<<<<< HEAD
+		System.out.println();
+		System.out.println("      â€»â€»â€»â€»â€» ë‚˜ë„ í™ˆëŸ°ì¹  ìˆ˜ ìˆì–´~! â€»â€»â€»â€»â€»");
+		System.out.println();
+		lottoHomeRun();
+		System.out.println();
+
+=======
 		player.stop();
 		player.play(2);
 		System.out.println(">>> ³ªµµ È¨·±Ä¥ ¼ö ÀÖ¾î~! <<<");
@@ -419,6 +524,7 @@ public class PlayerDAO {
 		System.out.println("£¾  È¨  ·±   £¼");
 		System.out.println("£¾  È¨  ·±   £¼");
 		System.out.println("£şY^Y^Y^Y^Y£ş");
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 		return 2;
 	}
 
@@ -428,29 +534,29 @@ public class PlayerDAO {
 
 	public int inning(int userPlayer, int enemyPlayer) {
 
-		// player Name °®°í¿À±â
+		// player Name ê°–ê³ ì˜¤ê¸°
 		String userPlayerName = getPlayerName(userPlayer);
 		String enemyPlayerName = getPlayerName(enemyPlayer);
-		// getTeamName => String id(team id ÇÊ¿ä)
+		// getTeamName => String id(team id í•„ìš”)
 
-		// stat °®°í¿À±â
+		// stat ê°–ê³ ì˜¤ê¸°
 		int userPlayerStat = playerStat(userPlayer);
 		int enemyPlayerStat = playerStat(enemyPlayer);
 
-		System.out.print(getTeamName(getUserId(userPlayer)) + "ÆÀ ¼±¼ö : " + userPlayerName);
+		System.out.print(getTeamName(getUserId(userPlayer)) + "íŒ€ ì„ ìˆ˜ : " + userPlayerName);
 		System.out.print("(" + userPlayerStat + ")");
 		System.out.print("  VS ");
-		System.out.print(getTeamName(getUserId(enemyPlayer)) + "ÆÀ ¼±¼ö : " + enemyPlayerName);
+		System.out.print(getTeamName(getUserId(enemyPlayer)) + "íŒ€ ì„ ìˆ˜ : " + enemyPlayerName);
 		System.out.print("(" + enemyPlayerStat + ")");
 		System.out.println();
 
 		int match = userPlayerStat - enemyPlayerStat;
 
 		if (match == 0) {
-			System.out.println("£ßìÑìÑìÑìÑìÑìÑ£ß");
-			System.out.println("£¾º¥Ä¡ Å¬¸®¾î¸µ£¼");
-			System.out.println("£¾(°°Àº´É·ÂÄ¡)£¼");
-			System.out.println("£şY^Y^Y^Y^Y£ş");
+			System.out.println("     ï¼¿äººäººäººäººäººäººï¼¿");
+			System.out.println("     ï¼ë²¤ì¹˜ í´ë¦¬ì–´ë§ï¼œ");
+			System.out.println("     ï¼(ê°™ì€ëŠ¥ë ¥ì¹˜)ï¼œ");
+			System.out.println("     ï¿£Y^Y^Y^Y^Yï¿£");
 			return -1;
 		} else if (match <= 10) {
 			int lotto = ran.nextInt(9) + 1;
@@ -512,9 +618,7 @@ public class PlayerDAO {
 			psmt.setInt(1, userScore);
 			psmt.setString(2, userId);
 			cnt = psmt.executeUpdate();
-			if (cnt > 0) {
-				System.out.println("½ºÄÚ¾î ¾÷µ¥ÀÌÆ® ¿Ï·á");
-			}
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -523,7 +627,7 @@ public class PlayerDAO {
 	}
 
 	public void game(String newId, String enemyId) throws ClassNotFoundException {
-// thorwsºÎºĞ ¼öÁ¤ÇÏ±â
+// thorwsë¶€ë¶„ ìˆ˜ì •í•˜ê¸°
 		getConn();
 
 		String id = newId;
@@ -543,10 +647,14 @@ public class PlayerDAO {
 		playerPick(enemy);
 
 		while (true) {
+<<<<<<< HEAD
+			System.out.print("[1] í”Œë ˆì´! [2] ê¸°ê¶Œí• ë˜ìš” ã…œ >> ");
+=======
 			
 			System.out.print("[1] ÇÃ·¹ÀÌ! [2] ±â±ÇÇÒ·¡¿ä ¤Ì >> ");
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 			int goOrStop = sc.nextInt();
-			// ====== °ÔÀÓ ÁøÇà ======
+			// ====== ê²Œì„ ì§„í–‰ ======
 			if (goOrStop == 1) {
 
 				int gameCnt = 0;
@@ -557,36 +665,64 @@ public class PlayerDAO {
 
 				while (true) {
 					gameCnt++;
-					System.out.println("¡í ¦¡¦¡¦¡¦¡ ¡ì " + gameCnt + "ÀÌ´× ¡í ¦¡¦¡¦¡¦¡ ¡ì");
+					System.out.println("â‰« â”€â”€â”€â”€ â‰ª " + gameCnt + "ì´ë‹ â‰« â”€â”€â”€â”€ â‰ª");
 
 					int result = inning(playerPick(id), playerPick(enemy));
 					userGameScore += result;
 
 					if (result == -1) {
 						
-						break;
+						System.out.println("ì‹¸ì›€ì´ ë‚˜ì„œ ê²½ê¸° ì¤‘ë‹¨");
 					} else if (result == 0) {
-						// STRIKEÀÏ °æ¿ì
+						// STRIKEì¼ ê²½ìš°
 						strike++;
 						if (strike == 3) {
+<<<<<<< HEAD
+							System.out.println();
+							System.out.println("           â€»â€»â€»â€»â€» ë£¨í‚¹ìŠ¤íŠ¸ë¼ì´í¬ ì•„ì›ƒ â€»â€»â€»â€»â€»");
+							System.out.println(
+									 "                 â”³â”³    â”³â”³\r\n"
+									+ "                 ì‚¼     ì‚¼   \r\n"
+									+ "               ì§„      ì§„ã€€  ã€€\r\n"
+									+ "                 ì•„      ì•„   \r\n"
+									+ "               ì›ƒ  â”â”â”â”â” ì›ƒ");
+							
+							System.out.println();
+							System.out.println("ì´ íšë“ ì ìˆ˜ : " + userGameScore);
+=======
 							player.stop();
 							System.out.println("---- ¤Ğ »ï Áø ¾Æ ¿ô ¤Ğ ----");
 							System.out.println("ÃÑ È¹µæ Á¡¼ö : " + userGameScore);
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 							break;
+						}else if(strike == 1) {
+							System.out.println("S : â—â—‹â—‹");
+							System.out.println();
+						}else if(strike == 2) {
+							System.out.println("S : â—â—â—‹");
+							System.out.println();
 						}
 					}
 
 					if (gameCnt == 9) {
+<<<<<<< HEAD
+						System.out.println("ì´ íšë“ ì ìˆ˜ : " + userGameScore);
+=======
 						player.stop();
 						System.out.println("ÃÑ È¹µæ Á¡¼ö : " + userGameScore);
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 						break;
 					} else {
-						System.out.print("[1] ´ÙÀ½ ÀÌ´× [2] °æ±âÆ÷±â >> ");
+						System.out.print("[1] ë‹¤ìŒ ì´ë‹ [2] ê²½ê¸°í¬ê¸° >> ");
 						choice = sc.nextInt();
 					}
 					if (choice == 2) {
+<<<<<<< HEAD
+						System.out.println("íšë“í•œ ì ìˆ˜ê°€ ëª¨ë‘ ì‚¬ë¼ì¡ŒìŠµë‹ˆë‹¤!!");
+=======
 						player.stop();
 						System.out.println("È¹µæÇÑ Á¡¼ö°¡ ¸ğµÎ »ç¶óÁ³½À´Ï´Ù!!");
+>>>>>>> branch 'master' of https://github.com/2021-SMHRD-KDT-Bigdata-6/team2.git
 						userGameScore = 0;
 						break;
 					}
@@ -594,43 +730,43 @@ public class PlayerDAO {
 
 				// scoreUpdate method
 
-				System.out.println("°ÔÀÓÀÌ Á¾·áµÆ½À´Ï´Ù.");
+				System.out.println("ê²Œì„ì´ ì¢…ë£ŒëìŠµë‹ˆë‹¤.");
 
 				if (strike == 3) {
 
-					System.out.println("¡í ¦¡¦¡¦¡¦¡ °ÔÀÓ°á°ú : ÆĞ¹è ¦¡¦¡¦¡¦¡ ¡ì");
+					System.out.println("â‰« â”€â”€â”€â”€ ê²Œì„ê²°ê³¼ : íŒ¨ë°° â”€â”€â”€â”€ â‰ª");
 
 				} else if (gameCnt == 9) { if (choice != 2) {
 	                  System.out.println();
-	                  System.out.println("¡í ¦¡¦¡¦¡¦¡ °ÔÀÓ°á°ú : ½Â¸® ¦¡¦¡¦¡¦¡ ¡ì");
+	                  System.out.println("â‰« â”€â”€â”€â”€ ê²Œì„ê²°ê³¼ : ìŠ¹ë¦¬ â”€â”€â”€â”€ â‰ª");
 	                  int numberPlayers = getPlayerNumber(id);
 
 	                  if (numberPlayers < 9) {
 	                     System.out.println();
-	                     System.out.println("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤");
-	                     System.out.println("      ÃàÇÏµå¸³´Ï´Ù!   ");
-	                     System.out.println("   ½Â¸®¿¡ ´ëÇÑ º¸»óÀ¸·Î  ");
-	                     System.out.println(" ¼±¼ö 1¸í Ãß°¡ µî·ÏÇÏ¼¼¿ä!");
-	                     System.out.println("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥");
+	                     System.out.println("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”");
+	                     System.out.println("      ì¶•í•˜ë“œë¦½ë‹ˆë‹¤!   ");
+	                     System.out.println("   ìŠ¹ë¦¬ì— ëŒ€í•œ ë³´ìƒìœ¼ë¡œ  ");
+	                     System.out.println(" ì„ ìˆ˜ 1ëª… ì¶”ê°€ ë“±ë¡í•˜ì„¸ìš”!");
+	                     System.out.println("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜");
 	                     
 	                     playerInput(id);
 	                     showPlayerList(id);
 	                  } else {
 	                     System.out.println();
-	                     System.out.println("ÇÑ ÆÀ´ç ÃÖ´ë ÀÎ¿ø¼ö ÃÊ°ú·Î Ãß°¡ ¼±¼öµî·Ï º¸»óÀ» ¹ŞÀ» ¼ö ¾ø½À´Ï´Ù.");
+	                     System.out.println("í•œ íŒ€ë‹¹ ìµœëŒ€ ì¸ì›ìˆ˜ ì´ˆê³¼ë¡œ ì¶”ê°€ ì„ ìˆ˜ë“±ë¡ ë³´ìƒì„ ë°›ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 	                  }
 	               }
 	            }
 
 				userScore += userGameScore;
 				updateScore(id, userScore);
-				System.out.println("ÇöÀç ´ç½ÅÀÇ ÃÑ Á¡¼ö´Â >> " + getScore(id));
+				System.out.println("í˜„ì¬ ë‹¹ì‹ ì˜ ì´ ì ìˆ˜ëŠ” >> " + getScore(id));
 				break;
 			} else if (goOrStop == 2) {
-				System.out.println("°ÌÀïÀÌ...!!");
+				System.out.println("ê²ìŸì´...!!");
 				break;
 			} else {
-				System.out.println("[1]°ú [2]Áß¿¡¼­ °í¸£¼¼¿ä!");
+				System.out.println("[1]ê³¼ [2]ì¤‘ì—ì„œ ê³ ë¥´ì„¸ìš”!");
 			}
 		}
 		// gameCnt
@@ -641,9 +777,9 @@ public class PlayerDAO {
 
 		// int userPick = userPlayerList.get(ran.nextInt(userPlayerList.size()));
 		// System.out.println("userPick >> " + userPick);
-		// userPick¿¡´Â userÆÀÀÇ ¼±¼ö ¹øÈ£°¡ ´ã°ÜÀÖÀ½
+		// userPickì—ëŠ” useríŒ€ì˜ ì„ ìˆ˜ ë²ˆí˜¸ê°€ ë‹´ê²¨ìˆìŒ
 
-		// ¿ì¸®ÆÀ player stat
+		// ìš°ë¦¬íŒ€ player stat
 
 //			String sql2 = "SELECT * FROM players WHERE players_no = ?";
 //			psmt = conn.prepareStatement(sql2);
@@ -655,13 +791,13 @@ public class PlayerDAO {
 //			System.out.println("userStat >> " + userStat);
 //			}
 
-		// ==== ¿©±â´Â ÀÌÁ¦ »ó´ëÆÀ °í¸£´Â ºÎºĞ ====
-		// enemyId´Â ¹Ş¾Æ¿È -> ÀÌ°É È°¿ëÇØ¼­ »ó´ëÆÀ ·£´ıÀ¸·Î ÇÑ ¸í »Ì¾ÆÁÖ±â
-		// ´Ü, °ÔÀÓÀÌ 1È¸¾¿ ÁøÇàµÉ ¶§¸¶´Ù ¼±¼ö´Â ¹Ù²î¾î¾ß ÇÔ
+		// ==== ì—¬ê¸°ëŠ” ì´ì œ ìƒëŒ€íŒ€ ê³ ë¥´ëŠ” ë¶€ë¶„ ====
+		// enemyIdëŠ” ë°›ì•„ì˜´ -> ì´ê±¸ í™œìš©í•´ì„œ ìƒëŒ€íŒ€ ëœë¤ìœ¼ë¡œ í•œ ëª… ë½‘ì•„ì£¼ê¸°
+		// ë‹¨, ê²Œì„ì´ 1íšŒì”© ì§„í–‰ë  ë•Œë§ˆë‹¤ ì„ ìˆ˜ëŠ” ë°”ë€Œì–´ì•¼ í•¨
 
 //			enemyId = enemyPick(id);
 		// enemyId
-//			int enemyNum = playerPick(enemyId);//»ó´ë¹æÆÀ ¼±¼ö ¹øÈ£Áß ÇÏ³ª¸¦ ·£´ıÀ¸·Î ¾ò±â
+//			int enemyNum = playerPick(enemyId);//ìƒëŒ€ë°©íŒ€ ì„ ìˆ˜ ë²ˆí˜¸ì¤‘ í•˜ë‚˜ë¥¼ ëœë¤ìœ¼ë¡œ ì–»ê¸°
 
 //			ArrayList<Integer>enemyPlayerList = new ArrayList<Integer>();
 //			
@@ -674,13 +810,13 @@ public class PlayerDAO {
 //				enemyPlayerList.add(enemyPlayer);
 //			}
 
-//			while(gameCnt < 10) { // game 9È¸ ÁøÇàµÉ¶§±îÁö ÁøÇà
-//				// °ÔÀÓÀÌ ÁøÇàµÉ ¶§¸¶´Ù »ó´ë¹æ ¼±¼ö ´Ş¶óÁ®¾ßÇÏ´Ï±î ¿©±â¼­ ·£´ı ¼±¼ö »Ì¾ÆÁÖ±â
-//				System.out.println("***"+gameCnt+"È¸ ½ÃÀÛ ***");
+//			while(gameCnt < 10) { // game 9íšŒ ì§„í–‰ë ë•Œê¹Œì§€ ì§„í–‰
+//				// ê²Œì„ì´ ì§„í–‰ë  ë•Œë§ˆë‹¤ ìƒëŒ€ë°© ì„ ìˆ˜ ë‹¬ë¼ì ¸ì•¼í•˜ë‹ˆê¹Œ ì—¬ê¸°ì„œ ëœë¤ ì„ ìˆ˜ ë½‘ì•„ì£¼ê¸°
+//				System.out.println("***"+gameCnt+"íšŒ ì‹œì‘ ***");
 //				// int enemyPick = enemyPlayerList.get(ran.nextInt(enemyPlayerList.size()));
 //				
 //				
-//				// enemyPickÀÇ stat ÀúÀåÇØÁÖ±â
+//				// enemyPickì˜ stat ì €ì¥í•´ì£¼ê¸°
 //				String sql4 = "SELECT * FROM players WHERE players_no = ?";
 //				psmt = conn.prepareStatement(sql4);
 //				psmt.setInt(1, enemyPick);
@@ -696,28 +832,28 @@ public class PlayerDAO {
 //				System.out.println("match : "+match);
 //				if(match <= 10) {
 //					if(strike == 3) {
-//						System.out.println("!!»ï Áø ¾Æ ¿ô!!");
+//						System.out.println("!!ì‚¼ ì§„ ì•„ ì›ƒ!!");
 //						break;
 //					}else if(strike==1) {
-//						System.out.println("strike : ¡Ü¡Û¡Û");
+//						System.out.println("strike : â—â—‹â—‹");
 //					}else if(strike==2) {
-//						System.out.println("strike : ¡Ü¡Ü¡Û");
+//						System.out.println("strike : â—â—â—‹");
 //					}
 //					strike++;
 //					System.out.println("STRIKE");
 //				}else if(match <= 50) {
 //					hit++;
 //					userGameScore++;
-//					System.out.println("HIT !! 1 Á¡ È¹µæ");
-//					System.out.println("ÇöÀç Á¡¼ö >> " + userGameScore);
+//					System.out.println("HIT !! 1 ì  íšë“");
+//					System.out.println("í˜„ì¬ ì ìˆ˜ >> " + userGameScore);
 //				}else{
 //					homerun++;
 //					userGameScore += 2;
-//					System.out.println("HOMERUN !!2 Á¡ È¹µæ");
-//					System.out.println("ÇöÀç Á¡¼ö >> " + userGameScore);
+//					System.out.println("HOMERUN !!2 ì  íšë“");
+//					System.out.println("í˜„ì¬ ì ìˆ˜ >> " + userGameScore);
 //					
 //				}
-//				System.out.println("=== "+gameCnt + "È¸ Á¾·á! ===");
+//				System.out.println("=== "+gameCnt + "íšŒ ì¢…ë£Œ! ===");
 //				gameCnt++;
 //				
 //				
@@ -725,8 +861,8 @@ public class PlayerDAO {
 
 //			if(gameCnt==9) {
 //				if(strike != 3) {
-//					System.out.println("°ÔÀÓ¿¡¼­ ½Â¸®ÇÏ¼Ì½À´Ï´Ù.");
-//					System.out.println("»õ·Î¿î ¼±¼ö 1¸íÀ» µî·ÏÇØÁÖ¼¼¿ä.");
+//					System.out.println("ê²Œì„ì—ì„œ ìŠ¹ë¦¬í•˜ì…¨ìŠµë‹ˆë‹¤.");
+//					System.out.println("ìƒˆë¡œìš´ ì„ ìˆ˜ 1ëª…ì„ ë“±ë¡í•´ì£¼ì„¸ìš”.");
 //					
 //					int cnt = 0;
 //					System.out.println("ID >> ");					
@@ -736,12 +872,12 @@ public class PlayerDAO {
 //					System.out.println("TEAM >> ");					
 //					String newTeam = sc.next();
 //
-//					// ±Ùµ¥ teamÀº ±âÁ¸ teamÀ¸·Î ¹Ì¸® µî·ÏÇØÁÖ¸é ÁÁÁö ¾ÊÀ»±î?
-//					// ÀÏ´ÜÀº ±×³É ÀÔ·Â¹ŞÀÚ
-//					// ¿©À¯µÇ¸é ÀÌ ºÎºĞ ¼öÁ¤ÇÏ±â -> ±âÁ¸ team³Ö¾îÁÖµµ·Ï
+//					// ê·¼ë° teamì€ ê¸°ì¡´ teamìœ¼ë¡œ ë¯¸ë¦¬ ë“±ë¡í•´ì£¼ë©´ ì¢‹ì§€ ì•Šì„ê¹Œ?
+//					// ì¼ë‹¨ì€ ê·¸ëƒ¥ ì…ë ¥ë°›ì
+//					// ì—¬ìœ ë˜ë©´ ì´ ë¶€ë¶„ ìˆ˜ì •í•˜ê¸° -> ê¸°ì¡´ teamë„£ì–´ì£¼ë„ë¡
 //
-//					// »õ·Î¿î ¼±¼öµî·Ï method·Î µû·Î »©±â
-//					// return ÇÏ°Ô ÇØ¼­ ÇÒ±î?
+//					// ìƒˆë¡œìš´ ì„ ìˆ˜ë“±ë¡ methodë¡œ ë”°ë¡œ ë¹¼ê¸°
+//					// return í•˜ê²Œ í•´ì„œ í• ê¹Œ?
 //					
 //					int newStat = ran.nextInt(100)+1;
 //					
@@ -758,15 +894,15 @@ public class PlayerDAO {
 //				
 //				
 //			}else {
-//				System.out.println("ÆĞ¹èÇÏ¼Ì½À´Ï´Ù.");				
+//				System.out.println("íŒ¨ë°°í•˜ì…¨ìŠµë‹ˆë‹¤.");				
 //			}
 
-//			System.out.println("-- °æ±â°á°ú -- ");
-//			System.out.println("HIT : "+ hit +"°³");
-//			System.out.println("HOMERUN : "+ homerun +"°³");
-//			System.out.println("È¹µæÁ¡¼ö : "+ userGameScore);
+//			System.out.println("-- ê²½ê¸°ê²°ê³¼ -- ");
+//			System.out.println("HIT : "+ hit +"ê°œ");
+//			System.out.println("HOMERUN : "+ homerun +"ê°œ");
+//			System.out.println("íšë“ì ìˆ˜ : "+ userGameScore);
 //			
-//			System.out.println("°ÔÀÓÀÌ Á¾·áµÆ½À´Ï´Ù.");
+//			System.out.println("ê²Œì„ì´ ì¢…ë£ŒëìŠµë‹ˆë‹¤.");
 //			
 //			
 //			
@@ -775,12 +911,12 @@ public class PlayerDAO {
 //			psmt.setInt(1, userGameScore+userScore);
 //			psmt.setString(2, id);
 //			int row = psmt.executeUpdate();
-//			// ÀÌ°Å catch ¾È³Ö¾îÁàµµ µÇ³ª?
-//			// °è¼Ó ¾Èµé¾î°¨....
+//			// ì´ê±° catch ì•ˆë„£ì–´ì¤˜ë„ ë˜ë‚˜?
+//			// ê³„ì† ì•ˆë“¤ì–´ê°....
 //			if(row > 0) {
-//				System.out.println("Á¡¼ö ¾÷µ¥ÀÌÆ® ¿Ï·á");
+//				System.out.println("ì ìˆ˜ ì—…ë°ì´íŠ¸ ì™„ë£Œ");
 //			}else {
-//				System.out.println("¿À·ù¹ß»ı");
+//				System.out.println("ì˜¤ë¥˜ë°œìƒ");
 //			}
 //			
 //			String checkUserScore = "SELECT user_score FROM users WHERE user_id = ?";
@@ -790,7 +926,7 @@ public class PlayerDAO {
 //			
 //			while(rs.next()) {
 //				int checkScore = rs.getInt("user_score");
-//				System.out.println("ÇöÀç ÀüÃ¼ Á¡¼ö´Â >> " + checkScore);
+//				System.out.println("í˜„ì¬ ì „ì²´ ì ìˆ˜ëŠ” >> " + checkScore);
 //			}
 //			
 //			

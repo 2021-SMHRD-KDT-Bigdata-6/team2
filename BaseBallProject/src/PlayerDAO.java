@@ -466,7 +466,7 @@ public class PlayerDAO {
 		int hit = 0;
 		int homerun = 0;
 
-		int userScore = getScore(id); // database에 저장된 user의 점수
+		int userScore = getScore(id);
 		int userGameScore = 0;// 게임에서 얻는 점수
 
 

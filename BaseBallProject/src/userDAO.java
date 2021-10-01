@@ -44,49 +44,47 @@ public class userDAO {
 	}
 
 	// 로그인
-	public userVO login(userVO vo) {
+	public String login() {
 		userVO info = null;
+		String id = null;
 		getConn();
 		int login = 0;
+		while (login == 0) {
+			System.out.println("--로그인--");
+			System.out.print("ID입력 : ");
+			id = sc.next();
+			System.out.print("PW입력 : ");
+			String pw = sc.next();
 
-		System.out.println("--로그인--");
-		System.out.print("ID입력 : ");
-		String id = sc.next();
-		System.out.print("PW입력 : ");
-		String pw = sc.next();
+			userVO vo = new userVO(id, pw);
 
-		vo = new userVO(id, pw);
+			try {
+				String sql = "select * from users where user_id = ? and user_pw = ?";
+				psmt = conn.prepareStatement(sql);
+				psmt.setString(1, vo.getId());
+				psmt.setString(2, vo.getPw());
+				rs = psmt.executeQuery();
 
-		try {
-			String sql = "select * from users where user_id = ? and user_pw = ?";
-			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, vo.getId());
-			psmt.setString(2, vo.getPw());
-			rs = psmt.executeQuery();
-
-			if (rs.next()) {
+				rs.next();
 				id = rs.getString(1);
-				pw = rs.getString(2);
-				String team = rs.getString(3);
-				int score = rs.getInt(4);
 
-				info = new userVO(id, pw, team, score);
-
-				if (info != null) {
+				if (id != null) {
 					System.out.println("로그인 성공!");
-					System.out.println(info.getId() + "님 환영합니다!");
+					System.out.println(id + "님 환영합니다!");
 					login++;
-				}else {
+				} else {
 					System.out.println("로그인 실패..");
 				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close();
+			
 		}
 
-		return info;
+		return id;
 	}
 
 	// 회원가입 아이디중복
@@ -113,7 +111,6 @@ public class userDAO {
 	public int signup(userVO vo) {
 		int cnt = 0;
 		getConn();
-
 //		System.out.print("아이디를 입력하세요 >> ");
 //		String id = sc.next();
 //		System.out.print("비밀번호를 입력하세요 >> ");
@@ -174,14 +171,13 @@ public class userDAO {
 		return ranList;
 	}
 
-	public void showRanking(ArrayList<userVO> ranList) {
+	public void showRanking(ArrayList<userVO> ranList, String id) {
 		System.out.println("                 ***BaseBall 랭킹!***");
-		ranList = getRanking();
-		userVO info = login(vo);
+
 		for (int i = 0; i < ranList.size(); i++) {
-			if (info.getId().equals(ranList.get(i).getId())) {
+			if (id.equals(ranList.get(i).getId())) {
 				System.out.println("========================================================");
-				System.out.println("                    " + info.getId() + " 님의 랭킹");
+				System.out.println("                    " + id + " 님의 랭킹");
 				System.out.println("--------------------------------------------------------");
 				System.out.printf("%6s", i + 1 + "위   ");
 				System.out.printf("%-10s \t%-25s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(),

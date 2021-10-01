@@ -20,41 +20,38 @@ public class Main {
 
 				// login
 
-				while (login == 0) {
+				String id = dao.login();
+				while (true) {
+					System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면");
+					int select2 = sc.nextInt();
+					if (select2 == 1) { // 경기시작
+						daoP.game(id, daoP.enemyPick(id));
 
-					userVO info = dao.login(vo);
+						// 우리팀, 상대방 팀 불러오기
+						// String enemyId = daoP.enemyPick(id);
+						// int myPlayer;
+						// int enemyPlayer;
+						// System.out.println("내 출전선수 번호 "+ (myPlayer = daoP.playerPick(id)));
+						// System.out.println("상대 출전선수 번호 "+ (enemyPlayer = daoP.playerPick(enemyId)));
 
-					while (true) {
-						System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면");
-						int select2 = sc.nextInt();
-						if (select2 == 1) { // 경기시작
-							daoP.game(vo.getId(), daoP.enemyPick(id));
+						// show_playerList
 
-							// 우리팀, 상대방 팀 불러오기
-							// String enemyId = daoP.enemyPick(id);
-							// int myPlayer;
-							// int enemyPlayer;
-							// System.out.println("내 출전선수 번호 "+ (myPlayer = daoP.playerPick(id)));
-							// System.out.println("상대 출전선수 번호 "+ (enemyPlayer = daoP.playerPick(enemyId)));
+						// 승리시, playerInput(선수등록)
 
-							// show_playerList
-
-							// 승리시, playerInput(선수등록)
-
-							// 승리시, ranking
-						} else if (select2 == 2) {
-							// ranking
-
-							dao.showRanking(dao.getRanking());
-						} else if (select2 == 3) {
-							System.out.println("메인으로 돌아갑니다.");
-							break;
-						} else {
-							System.out.println("1~3번 중에 입력해주세요!!");
-						}
+						// 승리시, ranking
+					} else if (select2 == 2) {
+						// ranking
+						
+						dao.showRanking(dao.getRanking(), id);
+					
+					} else if (select2 == 3) {
+						System.out.println("메인으로 돌아갑니다.");
+						break;
+					} else {
+						System.out.println("1~3번 중에 입력해주세요!!");
 					}
-
 				}
+
 			}
 
 			else if (select == 2) {

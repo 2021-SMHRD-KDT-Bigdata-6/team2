@@ -11,7 +11,7 @@ public class Main {
 
 		while (true) {
 
-			System.out.print("[1]로그인  [2]회원가입  [3]종료");
+			System.out.print("[1]로그인  [2]회원가입  [3]종료 >> ");
 			int select = sc.nextInt();
 
 			if (select == 1) {
@@ -22,7 +22,7 @@ public class Main {
 
 				String id = dao.login();
 				while (true) {
-					System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면");
+					System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면 >> ");
 					int select2 = sc.nextInt();
 					if (select2 == 1) { // 경기시작
 						daoP.game(id, daoP.enemyPick(id));

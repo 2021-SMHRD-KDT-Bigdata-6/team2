@@ -467,7 +467,7 @@ public class PlayerDAO {
 		System.out.println(" >>> HIT : 1점 획득");
 		System.out.println();
 		player.stop();
-		player.play(1);
+		player.play(4);
 		return 1;
 	}
 
@@ -490,7 +490,7 @@ public class PlayerDAO {
 		System.out.println();
 
 		player.stop();
-		player.play(2);
+		player.play(5);
 
 		return 2;
 	}

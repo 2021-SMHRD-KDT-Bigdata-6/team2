@@ -137,6 +137,7 @@ public class userDAO {
 
 			if (check(vo.getId()) == true) {
 				System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요.");
+				
 			} else {
 				try {
 					String spl = "insert into users values(?,?,?,?)";

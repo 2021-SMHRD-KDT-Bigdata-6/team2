@@ -14,7 +14,9 @@ public class MusicPlayer {
 		musicList.add(new Music("배경음악","play\\backgroundmusic.mp3"));
 		musicList.add(new Music("안타","play\\hit.mp3"));
 		musicList.add(new Music("홈런","play\\homerun.mp3"));
-		musicList.add(new Music("스트라이크","play\\strike.mp3"));
+		musicList.add(new Music("스트라이크","play\\strike2.mp3"));
+		musicList.add(new Music("안타2","play\\hit2.mp3"));
+		musicList.add(new Music("홈런2","play\\homerun2.mp3"));
 	}
 	
 	public void play(int numMusic) {

@@ -7,7 +7,7 @@ public class Main {
 //Ä¿¹Ô
 		Scanner sc = new Scanner(System.in);
 		userDAO dao = new userDAO();
-		PlayerDAO2 daoP = new PlayerDAO2();
+		PlayerDAO daoP = new PlayerDAO();
 
 		while (true) {
 

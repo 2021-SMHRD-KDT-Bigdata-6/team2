@@ -63,19 +63,19 @@ public class Main {
 										System.out.println("                    " + info.getId() + " 님의 랭킹");
 										System.out.println("--------------------------------------------------------");
 										System.out.printf("%6s", i + 1 + "위   ");
-										System.out.printf("%-10s \t%-20s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(), ranList.get(i).getScore());
+										System.out.printf("%-10s \t%-25s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(), ranList.get(i).getScore());
 										System.out.println();
 										System.out.println("========================================================");
 										
 									}
 								}
-								System.out.printf("%5s %-10s \t%-20s \t%-10s", "순위  ", "아이디", "구단명", "점수");
+								System.out.printf("%5s %-10s \t%-25s \t%-10s", "순위  ", "아이디", "구단명", "점수");
 								System.out.println();
 								System.out.println("--------------------------------------------------------");
 								for (int i = 0; i < ranList.size(); i++) {
 									
 									System.out.printf("%6s", i + 1 + "위   ");
-									System.out.printf("%-10s \t%-20s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(), ranList.get(i).getScore());
+									System.out.printf("%-10s \t%-25s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(), ranList.get(i).getScore());
 									System.out.println();
 								}
 							} else if (select2 == 3) {

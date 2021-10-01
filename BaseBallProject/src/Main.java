@@ -19,8 +19,8 @@ public class Main {
 		while (true) {
 
 
-
 			player.play(0);
+
 
 			System.out.print("[1]로그인  [2]회원가입  [3]종료 >> ");
 			int select = sc.nextInt();

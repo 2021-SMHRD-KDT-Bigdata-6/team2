@@ -47,6 +47,15 @@ public class userDAO {
 	public userVO login(userVO vo) {
 		userVO info = null;
 		getConn();
+		int login = 0;
+
+		System.out.println("--로그인--");
+		System.out.print("ID입력 : ");
+		String id = sc.next();
+		System.out.print("PW입력 : ");
+		String pw = sc.next();
+
+		vo = new userVO(id, pw);
 
 		try {
 			String sql = "select * from users where user_id = ? and user_pw = ?";
@@ -56,12 +65,20 @@ public class userDAO {
 			rs = psmt.executeQuery();
 
 			if (rs.next()) {
-				String id = rs.getString(1);
-				String pw = rs.getString(2);
+				id = rs.getString(1);
+				pw = rs.getString(2);
 				String team = rs.getString(3);
 				int score = rs.getInt(4);
 
 				info = new userVO(id, pw, team, score);
+
+				if (info != null) {
+					System.out.println("로그인 성공!");
+					System.out.println(info.getId() + "님 환영합니다!");
+					login++;
+				}else {
+					System.out.println("로그인 실패..");
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,24 +88,26 @@ public class userDAO {
 
 		return info;
 	}
+
 	// 회원가입 아이디중복
-		public boolean check(String id) {
-			getConn();
-			String sql = "select user_id from users";
-			try {
-				psmt = conn.prepareStatement(sql);
-				rs = psmt.executeQuery();
-				
-				while(rs.next()) {
-					if(rs.getString("user_id").equals(id)) {
-					return true; }// ---> 아이디가 중복일때 
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+	public boolean check(String id) {
+		getConn();
+		String sql = "select user_id from users";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+
+			while (rs.next()) {
+				if (rs.getString("user_id").equals(id)) {
+					return true;
+				} // ---> 아이디가 중복일때
 			}
-			
-			return false; // ---> 아이디가 중복되는게 없을때
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+
+		return false; // ---> 아이디가 중복되는게 없을때
+	}
 
 	// 회원가입
 	public int signup(userVO vo) {
@@ -103,40 +122,36 @@ public class userDAO {
 //		String team = sc.next();
 //
 //		vo = new userVO(id, pw, team);
-				
-		if(check(vo.getId()) == true) {
+
+		if (check(vo.getId()) == true) {
 			System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요.");
-		}else {
+		} else {
 			try {
-			String spl = "insert into users values(?,?,?,?)";
-			
-			psmt = conn.prepareStatement(spl);
-			psmt.setString(1, vo.getId());
-			psmt.setString(2, vo.getPw());
-			psmt.setString(3, vo.getTeam());
-			psmt.setInt(4, 0);
-			cnt = psmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close();
+				String spl = "insert into users values(?,?,?,?)";
+
+				psmt = conn.prepareStatement(spl);
+				psmt.setString(1, vo.getId());
+				psmt.setString(2, vo.getPw());
+				psmt.setString(3, vo.getTeam());
+				psmt.setInt(4, 0);
+				cnt = psmt.executeUpdate();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close();
+			}
 		}
-		}
-		
-		
 
 		return cnt;
 	}
-	
-	
+
 	// 랭킹확인하기 ranking
-	
-	
-	public ArrayList<userVO> ranking() {
+
+	public ArrayList<userVO> getRanking() {
 
 		getConn();
-		
+
 		ArrayList<userVO> ranList = new ArrayList<userVO>();
 		String sql = "select user_id, user_team, user_score from users order by user_score desc";
 		try {
@@ -157,6 +172,35 @@ public class userDAO {
 		}
 
 		return ranList;
+	}
+
+	public void showRanking(ArrayList<userVO> ranList) {
+		System.out.println("                 ***BaseBall 랭킹!***");
+		ranList = getRanking();
+		userVO info = login(vo);
+		for (int i = 0; i < ranList.size(); i++) {
+			if (info.getId().equals(ranList.get(i).getId())) {
+				System.out.println("========================================================");
+				System.out.println("                    " + info.getId() + " 님의 랭킹");
+				System.out.println("--------------------------------------------------------");
+				System.out.printf("%6s", i + 1 + "위   ");
+				System.out.printf("%-10s \t%-25s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(),
+						ranList.get(i).getScore());
+				System.out.println();
+				System.out.println("========================================================");
+
+			}
+		}
+		System.out.printf("%5s %-10s \t%-25s \t%-10s", "순위  ", "아이디", "구단명", "점수");
+		System.out.println();
+		System.out.println("--------------------------------------------------------");
+		for (int i = 0; i < ranList.size(); i++) {
+
+			System.out.printf("%6s", i + 1 + "위   ");
+			System.out.printf("%-10s \t%-25s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(),
+					ranList.get(i).getScore());
+			System.out.println();
+		}
 	}
 
 	// 선수리스트 보여주기 show_playerList

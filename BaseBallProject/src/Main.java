@@ -19,79 +19,45 @@ public class Main {
 				// login 구현하기
 
 				// login
-				int login = 0;
-				while (login == 0) {
-					System.out.println("--로그인--");
-					System.out.print("ID입력 : ");
-					String id = sc.next();
-					System.out.print("PW입력 : ");
-					String pw = sc.next();
 
-					userVO vo = new userVO(id, pw);
+				while (login == 0) {
+
 					userVO info = dao.login(vo);
 
-					if (info != null) {
-						System.out.println("로그인 성공!");
-						System.out.println(info.getId() + "님 환영합니다!");
-						login++;
+					while (true) {
+						System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면");
+						int select2 = sc.nextInt();
+						if (select2 == 1) { // 경기시작
+							daoP.game(vo.getId(), daoP.enemyPick(id));
 
-						while (true) {
-							System.out.print("[1]경기시작  [2]랭킹보기  [3]이전화면");
-							int select2 = sc.nextInt();
-							if (select2 == 1) { // 경기시작
-								daoP.game(vo.getId(), daoP.enemyPick(id));
+							// 우리팀, 상대방 팀 불러오기
+							// String enemyId = daoP.enemyPick(id);
+							// int myPlayer;
+							// int enemyPlayer;
+							// System.out.println("내 출전선수 번호 "+ (myPlayer = daoP.playerPick(id)));
+							// System.out.println("상대 출전선수 번호 "+ (enemyPlayer = daoP.playerPick(enemyId)));
 
-								// 우리팀, 상대방 팀 불러오기
-								// String enemyId = daoP.enemyPick(id);
-								// int myPlayer;
-								// int enemyPlayer;
-								// System.out.println("내 출전선수 번호 "+ (myPlayer = daoP.playerPick(id)));
-								// System.out.println("상대 출전선수 번호 "+ (enemyPlayer = daoP.playerPick(enemyId)));
+							// show_playerList
 
-								// show_playerList
+							// 승리시, playerInput(선수등록)
 
-								// 승리시, playerInput(선수등록)
+							// 승리시, ranking
+						} else if (select2 == 2) {
+							// ranking
 
-								// 승리시, ranking
-							} else if (select2 == 2) {
-								// ranking
-								System.out.println("                 ***BaseBall 랭킹!***");
-								ArrayList<userVO> ranList = dao.ranking();
-								for (int i = 0; i < ranList.size(); i++) {
-									if(info.getId().equals(ranList.get(i).getId())) {
-										System.out.println("========================================================");
-										System.out.println("                    " + info.getId() + " 님의 랭킹");
-										System.out.println("--------------------------------------------------------");
-										System.out.printf("%6s", i + 1 + "위   ");
-										System.out.printf("%-10s \t%-25s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(), ranList.get(i).getScore());
-										System.out.println();
-										System.out.println("========================================================");
-										
-									}
-								}
-								System.out.printf("%5s %-10s \t%-25s \t%-10s", "순위  ", "아이디", "구단명", "점수");
-								System.out.println();
-								System.out.println("--------------------------------------------------------");
-								for (int i = 0; i < ranList.size(); i++) {
-									
-									System.out.printf("%6s", i + 1 + "위   ");
-									System.out.printf("%-10s \t%-25s \t%-10s", ranList.get(i).getId(), ranList.get(i).getTeam(), ranList.get(i).getScore());
-									System.out.println();
-								}
-							} else if (select2 == 3) {
-								System.out.println("메인으로 돌아갑니다.");
-								break;
-							} else {
-								System.out.println("1~3번 중에 입력해주세요!!");
-							}
+							dao.showRanking(dao.getRanking());
+						} else if (select2 == 3) {
+							System.out.println("메인으로 돌아갑니다.");
+							break;
+						} else {
+							System.out.println("1~3번 중에 입력해주세요!!");
 						}
-
-					} else {
-						System.out.println("로그인 실패..");
 					}
-				}
 
-			} else if (select == 2) {
+				}
+			}
+
+			else if (select == 2) {
 				// signup
 				// playerInput(선수등록)
 				// show_playerList

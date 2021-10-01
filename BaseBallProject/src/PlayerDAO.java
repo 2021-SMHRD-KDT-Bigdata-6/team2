@@ -17,7 +17,7 @@ public class PlayerDAO {
 	private ResultSet rs;
 
 	private void getConn() {
- 
+
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			String db_url = "jdbc:oracle:thin:@project-db-stu.ddns.net:1524:xe";
@@ -94,6 +94,26 @@ public class PlayerDAO {
 			close();
 		}
 
+	}
+
+	public int getPlayerNumber(String id) {
+		getConn();
+		int cntPlayerNumber = 0;
+
+		try {
+			String sql = "select * from players where user_id = ?";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				cntPlayerNumber++;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cntPlayerNumber;
 	}
 
 	public void showPlayerList(String newId) {
@@ -319,30 +339,30 @@ public class PlayerDAO {
 
 	}
 
-
-	
 	public String getUserId(int playerNo) {
 		getConn();
 		String userId = null;
 		try {
 			String getUserId = "SELECT user_id FROM players WHERE players_no = ?";
-			psmt= conn.prepareStatement(getUserId);
+			psmt = conn.prepareStatement(getUserId);
 			psmt.setInt(1, playerNo);
 			rs = psmt.executeQuery();
 			rs.next();
 			userId = rs.getString("user_id");
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return userId;
 	}
-	
+
 	public int strike() {
+		System.out.println("날카로운 변화구에 서있기만 하셨네요..?");
 		System.out.println(">>> STRIKE");
 		return 0;
 	}
+
 	public int lottoStrike() {
 		System.out.println(">>> 스트라이크라니..? <<<");
 		System.out.println("＼＼\\\\ STRIKE ////／／");
@@ -350,25 +370,28 @@ public class PlayerDAO {
 	}
 
 	public int lottoHit() {
-		System.out.println(">>> 확률을 이겨낸 당신! <<<");
+		System.out.println(">>> 세이프티 번트 성공 <<<");
 		System.out.println("┏━┳━┳━┓");
 		System.out.println("┃H┃I┃T┃");
 		System.out.println("┗━┻━┻━┛");
-		
+
 		return 1;
 	}
+
 	public int hit() {
+		System.out.println(" 우리팀의 간판 타자!");
 		System.out.println(" >>> HIT : 1점 획득");
 		return 1;
 	}
 
 	public int homerun() {
+		System.out.println(" 역시 거포 !!!");
 		System.out.println(" >>> HOMERUN : 2점 획득");
 		return 2;
 	}
-	
+
 	public int lottoHomerun() {
-		System.out.println(">>> 확률을 이겨낸 당신!<<<");
+		System.out.println(">>> 나도 홈런칠 수 있어~! <<<");
 		System.out.println("＿人人人人人人＿");
 		System.out.println("＞  홈  런   ＜");
 		System.out.println("＞  홈  런   ＜");
@@ -376,9 +399,7 @@ public class PlayerDAO {
 		System.out.println("￣Y^Y^Y^Y^Y￣");
 		return 2;
 	}
-	
 
-	
 	public String getTeamId(int playerNo) {
 		return null;
 	}
@@ -394,23 +415,22 @@ public class PlayerDAO {
 		int userPlayerStat = playerStat(userPlayer);
 		int enemyPlayerStat = playerStat(enemyPlayer);
 
-		System.out.print(getTeamName(getUserId(userPlayer))+"팀 선수 : " + userPlayerName);
+		System.out.print(getTeamName(getUserId(userPlayer)) + "팀 선수 : " + userPlayerName);
 		System.out.print("(" + userPlayerStat + ")");
 		System.out.print("  VS ");
-		System.out.print(getTeamName(getUserId(enemyPlayer))+"팀 선수 : " + enemyPlayerName);
+		System.out.print(getTeamName(getUserId(enemyPlayer)) + "팀 선수 : " + enemyPlayerName);
 		System.out.print("(" + enemyPlayerStat + ")");
 		System.out.println();
 
 		int match = userPlayerStat - enemyPlayerStat;
-		
-		if(match == 0) {
+
+		if (match == 0) {
 			System.out.println("＿人人人人人人＿");
 			System.out.println("＞벤치 클리어링＜");
 			System.out.println("＞(같은능력치)＜");
 			System.out.println("￣Y^Y^Y^Y^Y￣");
 			return -1;
-		}
-		else if (match <= 10) {
+		} else if (match <= 10) {
 			int lotto = ran.nextInt(9) + 1;
 			if (lotto == 1) {
 				return lottoHomerun();
@@ -497,8 +517,6 @@ public class PlayerDAO {
 		int userScore = getScore(id);
 		int userGameScore = 0;
 
-
-		
 		playerPick(id);
 		playerPick(enemy);
 
@@ -511,35 +529,32 @@ public class PlayerDAO {
 				int gameCnt = 0;
 				int choice = 0;
 
-				
 				System.out.println("      /            /");
-				System.out.println("     / GAME START / ");			     
+				System.out.println("     / GAME START / ");
 				System.out.println("    /            /");
 
 				while (true) {
 					gameCnt++;
-					System.out.println("≫ ──── ≪ "+gameCnt+"이닝 ≫ ──── ≪");
+					System.out.println("≫ ──── ≪ " + gameCnt + "이닝 ≫ ──── ≪");
 
-					
 					int result = inning(playerPick(id), playerPick(enemy));
 					userGameScore += result;
-					
-					if(result == -1) {
-						gameCnt--;
+
+					if (result == -1) {
+						
 						break;
-					}else if (result == 0) {
+					} else if (result == 0) {
 						// STRIKE일 경우
 						strike++;
 						if (strike == 3) {
 							System.out.println("---- ㅠ 삼 진 아 웃 ㅠ ----");
-							System.out.println("총 획득 점수 : "+userGameScore);
+							System.out.println("총 획득 점수 : " + userGameScore);
 							break;
 						}
 					}
-					
 
 					if (gameCnt == 9) {
-						System.out.println("총 획득 점수 : "+userGameScore);
+						System.out.println("총 획득 점수 : " + userGameScore);
 						break;
 					} else {
 						System.out.print("[1] 다음 이닝 [2] 경기포기 >> ");
@@ -557,18 +572,30 @@ public class PlayerDAO {
 				System.out.println("게임이 종료됐습니다.");
 
 				if (strike == 3) {
-					
-					
+
 					System.out.println("≫ ──── 게임결과 : 패배 ──── ≪");
 
-				} else if (gameCnt == 9) {
-					if (choice != 2) {
-						System.out.println("≫ ──── 게임결과 : 승리 ──── ≪");
-						System.out.println("축하드립니다!! 승리에 대한 보상으로 선수 1명 추가등록하세요!");
-						playerInput(id);
-						showPlayerList(id);
-					}
-				}
+				} else if (gameCnt == 9) { if (choice != 2) {
+	                  System.out.println();
+	                  System.out.println("≫ ──── 게임결과 : 승리 ──── ≪");
+	                  int numberPlayers = getPlayerNumber(id);
+
+	                  if (numberPlayers < 9) {
+	                     System.out.println();
+	                     System.out.println("┌────────────────────┐");
+	                     System.out.println("      축하드립니다!   ");
+	                     System.out.println("   승리에 대한 보상으로  ");
+	                     System.out.println(" 선수 1명 추가 등록하세요!");
+	                     System.out.println("└────────────────────┘");
+	                     
+	                     playerInput(id);
+	                     showPlayerList(id);
+	                  } else {
+	                     System.out.println();
+	                     System.out.println("한 팀당 최대 인원수 초과로 추가 선수등록 보상을 받을 수 없습니다.");
+	                  }
+	               }
+	            }
 
 				userScore += userGameScore;
 				updateScore(id, userScore);

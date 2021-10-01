@@ -369,8 +369,8 @@ public class PlayerDAO {
 	
 	public void baseballAscii() {
 		System.out.println(
-				"                                              _-- _      ***  \r\n"
-				+"                                           __(_  )     **\r\n"
+				"                                                --        ***  \r\n"
+				+"                                           __ (   )_      ***  \r\n"
 				+"                                             <  (D)  .**\r\n"
 				+"                                            .~ \\ /~```\r\n"
 				+"                                          .~    V    *_ \r\n "

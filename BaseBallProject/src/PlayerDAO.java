@@ -418,7 +418,7 @@ public class PlayerDAO {
 	public void lottoHomeRun() {
 
 		System.out.println(
-				"##     ##  #######  ##     ## ######## ########  ##     ## ##    ## \r\n"
+				  "##     ##  #######  ##     ## ######## ########  ##     ## ##    ## \r\n"
 				+ "##     ## ##     ## ###   ### ##       ##     ## ##     ## ###   ## \r\n"
 				+ "##     ## ##     ## #### #### ##       ##     ## ##     ## ####  ## \r\n"
 				+ "######### ##     ## ## ### ## ######   ########  ##     ## ## ## ## \r\n"
@@ -429,26 +429,23 @@ public class PlayerDAO {
 	}
 	public int strike() {
 		System.out.println();
-		System.out.println("       ※※※※※ 투수 공을 바라보기만 합니다! ※※※※※");
+		System.out.println("       ※※※※※ 투수공을 바라보고만 있는 타자!!! ※※※※※");
 		System.out.println("               >> STRIKE ");
 		baseballAscii();
 
 		player.stop();
 		player.play(3);
-		System.out.println("��ī�ο� ��ȭ���� ���ֱ⸸ �ϼ̳׿�..?");
-		System.out.println(">>> STRIKE");
 		return 0;
 	}
 
 	public int lottoStrike() {
 		System.out.println();
 		System.out.println("         ※※※※※ 스트라이크라니..? ※※※※※");
-		System.out.println("               ＼＼ STRIKE ／／");
+		System.out.println("               \\ STRIKE //");
 		baseballAscii();
 		player.stop();
 		player.play(3);
-		System.out.println(">>> ��Ʈ����ũ���..? <<<");
-		System.out.println("����\\\\ STRIKE ////����");
+
 		return 0;
 	}
 
@@ -460,11 +457,6 @@ public class PlayerDAO {
 		System.out.println();
 		player.stop();
 		player.play(1);
-		System.out.println(">>> ������Ƽ ��Ʈ ���� <<<");
-		System.out.println("��������������");
-		System.out.println("��H��I��T��");
-		System.out.println("��������������");
-
 		return 1;
 	}
 
@@ -476,8 +468,6 @@ public class PlayerDAO {
 		System.out.println();
 		player.stop();
 		player.play(1);
-		System.out.println(" �츮���� ���� Ÿ��!");
-		System.out.println(" >>> HIT : 1�� ȹ��");
 		return 1;
 	}
 
@@ -489,8 +479,6 @@ public class PlayerDAO {
 		System.out.println();
 		player.stop();
 		player.play(2);
-		System.out.println(" ���� ���� !!!");
-		System.out.println(" >>> HOMERUN : 2�� ȹ��");
 		return 2;
 	}
 
@@ -503,12 +491,7 @@ public class PlayerDAO {
 
 		player.stop();
 		player.play(2);
-		System.out.println(">>> ���� Ȩ��ĥ �� �־�~! <<<");
-		System.out.println("�������������ѣ�");
-		System.out.println("��  Ȩ  ��   ��");
-		System.out.println("��  Ȩ  ��   ��");
-		System.out.println("��  Ȩ  ��   ��");
-		System.out.println("��Y^Y^Y^Y^Y��");
+
 		return 2;
 	}
 
@@ -633,7 +616,6 @@ public class PlayerDAO {
 		while (true) {
 			System.out.print("[1] 플레이! [2] 기권할래요 ㅜ >> ");
 			
-			System.out.print("[1] �÷���! [2] ����ҷ��� �� >> ");
 			int goOrStop = sc.nextInt();
 			// ====== 게임 진행 ======
 			if (goOrStop == 1) {
@@ -670,8 +652,6 @@ public class PlayerDAO {
 							System.out.println();
 							System.out.println("총 획득 점수 : " + userGameScore);
 							player.stop();
-							System.out.println("---- �� �� �� �� �� �� ----");
-							System.out.println("�� ȹ�� ���� : " + userGameScore);
 							break;
 						}else if(strike == 1) {
 							System.out.println("S : ●○○");
@@ -685,7 +665,6 @@ public class PlayerDAO {
 					if (gameCnt == 9) {
 						System.out.println("총 획득 점수 : " + userGameScore);
 						player.stop();
-						System.out.println("�� ȹ�� ���� : " + userGameScore);
 						break;
 					} else {
 						System.out.print("[1] 다음 이닝 [2] 경기포기 >> ");
@@ -694,7 +673,6 @@ public class PlayerDAO {
 					if (choice == 2) {
 						System.out.println("획득한 점수가 모두 사라졌습니다!!");
 						player.stop();
-						System.out.println("ȹ���� ������ ��� ��������ϴ�!!");
 						userGameScore = 0;
 						break;
 					}

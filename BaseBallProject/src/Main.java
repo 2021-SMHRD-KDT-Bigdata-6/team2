@@ -27,18 +27,6 @@ public class Main {
 					if (select2 == 1) { // 경기시작
 						daoP.game(id, daoP.enemyPick(id));
 
-						// 우리팀, 상대방 팀 불러오기
-						// String enemyId = daoP.enemyPick(id);
-						// int myPlayer;
-						// int enemyPlayer;
-						// System.out.println("내 출전선수 번호 "+ (myPlayer = daoP.playerPick(id)));
-						// System.out.println("상대 출전선수 번호 "+ (enemyPlayer = daoP.playerPick(enemyId)));
-
-						// show_playerList
-
-						// 승리시, playerInput(선수등록)
-
-						// 승리시, ranking
 					} else if (select2 == 2) {
 						// ranking
 

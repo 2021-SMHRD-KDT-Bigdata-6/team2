@@ -81,7 +81,7 @@ public class userDAO {
 			} finally {
 				close();
 			}
-			
+
 		}
 
 		return id;
@@ -108,39 +108,48 @@ public class userDAO {
 	}
 
 	// 회원가입
-	public int signup(userVO vo) {
+	public String signUp() {
+		userVO vo = null;
+		String id = null;
 		int cnt = 0;
 		getConn();
-//		System.out.print("아이디를 입력하세요 >> ");
-//		String id = sc.next();
-//		System.out.print("비밀번호를 입력하세요 >> ");
-//		String pw = sc.next();
-//		System.out.print("구단명을 입력하세요 >> ");
-//		String team = sc.next();
-//
-//		vo = new userVO(id, pw, team);
+		while (cnt == 0) {
+			System.out.print("아이디를 입력하세요 >> ");
+			id = sc.next();
+			System.out.print("비밀번호를 입력하세요 >> ");
+			String pw = sc.next();
+			System.out.print("구단명을 입력하세요 >> ");
+			String team = sc.next();
+			vo = new userVO(id, pw, team);
+			
+			if (check(vo.getId()) == true) {
+				System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요.");
+			} else {
+				try {
+					String spl = "insert into users values(?,?,?,?)";
 
-		if (check(vo.getId()) == true) {
-			System.out.println("이미 존재하는 아이디입니다. 다시 입력해주세요.");
-		} else {
-			try {
-				String spl = "insert into users values(?,?,?,?)";
+					psmt = conn.prepareStatement(spl);
+					psmt.setString(1, vo.getId());
+					psmt.setString(2, vo.getPw());
+					psmt.setString(3, vo.getTeam());
+					psmt.setInt(4, 0);
+					cnt = psmt.executeUpdate();
 
-				psmt = conn.prepareStatement(spl);
-				psmt.setString(1, vo.getId());
-				psmt.setString(2, vo.getPw());
-				psmt.setString(3, vo.getTeam());
-				psmt.setInt(4, 0);
-				cnt = psmt.executeUpdate();
+					
+					System.out.println("회원가입 성공!");
+					System.out.println("====선수영입을 시작합니다.====");
+					System.out.println("최초에 5명의 선수를 영입할 수 있습니다.");
+					cnt++;
 
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					close();
+				}
 			}
 		}
 
-		return cnt;
+		return id;
 	}
 
 	// 랭킹확인하기 ranking

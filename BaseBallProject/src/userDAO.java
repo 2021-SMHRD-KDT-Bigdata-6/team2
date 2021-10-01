@@ -123,8 +123,9 @@ public class userDAO {
 		userVO vo = null;
 		String id = null;
 		int cnt = 0;
-		getConn();
+		
 		while (cnt == 0) {
+			getConn();
 			System.out.println("--회원가입--");
 			System.out.print("아이디를 입력하세요 >> ");
 			id = sc.next();

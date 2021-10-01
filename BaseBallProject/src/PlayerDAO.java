@@ -17,7 +17,7 @@ public class PlayerDAO {
 	private ResultSet rs;
 
 	private void getConn() {
-
+ 
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			String db_url = "jdbc:oracle:thin:@project-db-stu.ddns.net:1524:xe";
@@ -29,7 +29,6 @@ public class PlayerDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -241,18 +240,12 @@ public class PlayerDAO {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
 			rs = psmt.executeQuery();
-			// resultQuery 에는 id가 같은 값들이 담길거야
 
 			while (rs.next()) {
-				// rs가 존재하는 동안
 				int playerNo = rs.getInt("players_no");
-				// playerNo를 받아와서
 				playerList.add(playerNo);
-				// playerList에 넣어주기
 			}
 
-			// playerList에서 랜덤으로 한 명 뽑아서 보여주기
-			// 여기서는 숫자만 반환해주는 용도
 			playerPick = playerList.get(ran.nextInt(playerList.size()));
 
 		} catch (SQLException e) {
@@ -280,7 +273,6 @@ public class PlayerDAO {
 			while (rs.next()) {
 				stat = rs.getInt("players_stat");
 			}
-			// System.out.println("stat >> " + stat);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -327,8 +319,26 @@ public class PlayerDAO {
 
 	}
 
-	// inning id 받아오면 stat, player name, team 모두 갖고 올 수 있잖아
 
+	
+	public String getUserId(int playerNo) {
+		getConn();
+		String userId = null;
+		try {
+			String getUserId = "SELECT user_id FROM players WHERE players_no = ?";
+			psmt= conn.prepareStatement(getUserId);
+			psmt.setInt(1, playerNo);
+			rs = psmt.executeQuery();
+			rs.next();
+			userId = rs.getString("user_id");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return userId;
+	}
+	
 	public int strike() {
 		System.out.println("STRIKE");
 		return 0;
@@ -343,25 +353,31 @@ public class PlayerDAO {
 		System.out.println("HOMERUN!! 2점 획득");
 		return 2;
 	}
+	
+
+	
+	public String getTeamId(int playerNo) {
+		return null;
+	}
 
 	public int inning(int userPlayer, int enemyPlayer) {
 
 		// player Name 갖고오기
 		String userPlayerName = getPlayerName(userPlayer);
 		String enemyPlayerName = getPlayerName(enemyPlayer);
+		// getTeamName => String id(team id 필요)
 
 		// stat 갖고오기
 		int userPlayerStat = playerStat(userPlayer);
 		int enemyPlayerStat = playerStat(enemyPlayer);
 
-		System.out.print("우리팀 선수 : " + userPlayerName);
-		System.out.print(" / 스탯 : " + userPlayerStat);
+		System.out.print(getTeamName(getUserId(userPlayer))+"팀 선수 : " + userPlayerName);
+		System.out.print("(" + userPlayerStat + ")");
 		System.out.print("  VS ");
-		System.out.print("상대팀 선수 : " + enemyPlayerName);
-		System.out.print(" / 스탯 : " + enemyPlayerStat);
+		System.out.print(getTeamName(getUserId(enemyPlayer))+"팀 선수 : " + enemyPlayerName);
+		System.out.print("(" + enemyPlayerStat + ")");
 		System.out.println();
 
-		// enemyPlayer의 stat갖고오기
 		int match = userPlayerStat - enemyPlayerStat;
 		if (match <= 10) {
 			int lotto = ran.nextInt(9) + 1;
@@ -436,8 +452,6 @@ public class PlayerDAO {
 
 	}
 
-	// game method
-	// 일단은 String id
 	public void game(String newId, String enemyId) throws ClassNotFoundException {
 // thorws부분 수정하기
 		getConn();
@@ -455,16 +469,10 @@ public class PlayerDAO {
 		int userScore = getScore(id); // database에 저장된 user의 점수
 		int userGameScore = 0;// 게임에서 얻는 점수
 
-		// 게임 종료 될 때 sql 활용해서 score update
 
-		// System.out.println("현재 사용자 스코어 받아오기 >> " + getScore(id));
 
 		playerPick(id);
-		// System.out.println("사용자 랜덤 선수 받아오기 >> " + playerPick(id));
-		// System.out.println("사용자 랜덤 선수 이름 >> " + getPlayerName(playerPick(id)));
 		playerPick(enemy);
-		// System.out.println("상대방 랜덤 선수 받아오기 >> " + playerPick(enemy));
-		// System.out.println("상대방 랜덤 선수 이름 >> " + getPlayerName(playerPick(enemy)));
 
 		while (true) {
 			System.out.print("[1] 플레이! [2] 기권할래요 ㅜ");
